@@ -30,7 +30,7 @@
     }
 
     function getTheme(url, callback) {
-       $.get("themedl.php?u=" + url, callback); 
+       $.get("http://lamperi.name/fruit.json", callback); 
     }
 
     function warnUnknownRoles(arr) {
@@ -234,9 +234,10 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
         $("#rolelists").html("");
         $("#mid-title").text("Editing rolelists");
         $("#center-content").html('');
-        var ri = 0;
-        while (theme.hasOwnProperty("roles"+(++ri))) {
+        var ri = 1;
+        while (theme.hasOwnProperty("roles"+ri)) {
             $("#rolelists").append("<button id='edit-rolelist"+ri+"' class='edit-rolelist'>Edit roles" + ri + "</button><button id='delete-rolelist"+ri+"' class='delete-rolelist'>Delete</button><br>");
+			ri++;
         }
         $("#rolelists").append("<button id='add-rolelist" +ri+ "' class='add-rolelist'>Add roles" + ri + "</button><br>");
     }
