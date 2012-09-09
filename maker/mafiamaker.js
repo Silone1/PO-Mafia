@@ -20,6 +20,7 @@
 
     function buildThemeFromUrl(url) {
         getTheme(url, function(resp) {
+		console.log(resp);
             try {
                 theme = JSON.parse(resp);
                 buildUI(theme);
@@ -314,14 +315,14 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
     }
 
     function buildUI(theme) {
-       $("#message").text("Editing - " + theme.name + " by " + theme.author) 
+       $("#message").text("Editing - " + theme.name + " by " + theme.author);
 
        /* Setup Teams */
        $("#teamlisting").after("<select id='sides'></select><br><button name='removerole'>Remove side</button><br><button name='addrole'>Add new side</button>")
-       $("#sides").append("<option value='null' selected='selected'>Select a side to edit</option>")
+       $("#sides").append("<option value='null' selected='selected'>Select a side to edit</option>");
        var index = 0;
        theme.sides.forEach(function(side) { 
-           $("#sides").append("<option value='" + (index++) + "'>" + side.translation + "</option>")
+           $("#sides").append("<option value='" + (index++) + "'>" + side.translation + "</option>");
        })
 
        $("#sides").change(function(event) {
@@ -365,6 +366,7 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
             west__size: 300,
 	    west__onresize: $.layout.callbacks.resizePaneAccordions
         });
+		
         $("#accordion").accordion({
             fillSpace: true,
             change: function(event, ui) {
