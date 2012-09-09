@@ -11,6 +11,10 @@
      */
 
 
+	function setText (msg) {
+	$("#message").text(msg);
+	}
+	
     function isRole(r) {
         for (var i = 0; i < theme.roles.length; ++i) {
             if (theme.roles[i].role == r) return true;
@@ -20,17 +24,19 @@
 
     function buildThemeFromUrl(url) {
         getTheme(url, function(resp) {
-		$("#message").text(resp);
+		setText(resp);
             try {
                 theme = JSON.parse(resp);
                 buildUI(theme);
             } catch(e) {
-                //$("#message").text("Error: "+e+" at "+e.lineNumber);
+                //$("#message").text("Error: "+e);
             }
+			setText("Theme loaded.");
         })
     }
 
     function getTheme(url, callback) {
+	setText("Loading theme..");
        $.get(url, callback); 
     }
 
