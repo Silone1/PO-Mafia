@@ -20,11 +20,12 @@
 
     function buildThemeFromUrl(url) {
         getTheme(url, function(resp) {
+		$("#message").text(resp);
             try {
                 theme = JSON.parse(resp);
                 buildUI(theme);
             } catch(e) {
-                $("#message").text("Error: "+e+" at "+e.lineNumber);
+                //$("#message").text("Error: "+e+" at "+e.lineNumber);
             }
         })
     }
