@@ -20,7 +20,6 @@
 
     function buildThemeFromUrl(url) {
         getTheme(url, function(resp) {
-		console.log(resp);
             try {
                 theme = JSON.parse(resp);
                 buildUI(theme);
@@ -379,6 +378,6 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
 
         });
         $("#message").text("Loaded");
-        buildThemeFromUrl("http://lamperi.name/fruit.json");
+        buildThemeFromUrl("fruit.json");
     });
 }())
