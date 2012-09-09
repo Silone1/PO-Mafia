@@ -24,7 +24,7 @@
                 theme = JSON.parse(resp);
                 buildUI(theme);
             } catch(e) {
-                $("#message").html("Error: "+e+" at "+e.lineNumber);
+                $("#message").text("Error: "+e+" at "+e.lineNumber);
             }
         })
     }
@@ -378,6 +378,6 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
 
         });
         $("#message").text("Loaded");
-        buildThemeFromUrl("fruit.json");
+        buildThemeFromUrl("default-old.json");
     });
 }())
