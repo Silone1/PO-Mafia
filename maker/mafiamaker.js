@@ -320,6 +320,10 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
         $("button").button();
     }
 
+	function showSource(event) {
+	$("#source").text(JSON.stringify(theme));
+	}
+	
     function buildUI(theme) {
        $("#message").text("Editing - " + theme.name + " by " + theme.author);
 
@@ -354,6 +358,9 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
        $("#rolelists").on("click", "button.delete-rolelist", deleteRoles);
        $("#rolelists").on("click", "button.add-rolelist", addRoles);
        buildRolesListing();
+	   
+	   $("#source").on("click", "button.show-source", showSource);
+       $("#source").append("<button id='show-source' class='show-source'>Show Source</button><br>");
 
        /* Resize accordion */
        $("#accordion").accordion().resizable();
