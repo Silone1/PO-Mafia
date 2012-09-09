@@ -2,7 +2,6 @@
     "name": "Fruit",
     "author": "Lamperi",
     "summary": "What a game of wonders. A watermelon, whose vote counts as five? A good guy mango that can kill! A kiwi that can inspect! Tomatoes distracting you! Can’t forget about those bananas and apples! Angry rotten fruit out for revenge! To top it all off, a daykilling fish that can’t be stopped! Also what is a potato doing it the game, it’s a tuber! Oh, well, it'll still protect you.",
-    "border": "***¸.·´¯`·.´¯`·.¸¸.·´¯`·.¸><(((º>¸.·´¯`·.´¯`·.¸¸.·´¯`·.¸><(((º>¸.·´¯`·.´¯`·.¸¸.·´¯`·.¸><(((º>",
     "sides": [{
         "side": "village",
         "translation": "Fruit"
@@ -278,8 +277,6 @@
         }
     }],
     "roles1": [],
-    "roles2": ["banana", "banana", "potato", "tomato", "rtomato", "rpotato", "melon", "kiwi", "mango", "banana", "fish", "rcucumber", "mango", "apple", "apple", "apple", "minnow", "kiwi", "rb", "melon", "rcucumber", "minnow", "banana", "ch", "apple", "rcucumber", "plum", "banana", "pa", "rb", "banana"
-
-    ],
+    "roles2": ["banana", "banana", "potato", "tomato", "rtomato", "rpotato", "melon", "kiwi", "mango", "banana", "fish", "rcucumber", "mango", "apple", "apple", "apple", "minnow", "kiwi", "rb", "melon", "rcucumber", "minnow", "banana", "ch", "apple", "rcucumber", "plum", "banana", "pa", "rb", "banana"],
     "villageCantLoseRoles": ["melon", "mango", "pa"]
 }
