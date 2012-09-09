@@ -249,6 +249,13 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
         $("#rolelists").append("<button id='add-rolelist" +ri+ "' class='add-rolelist'>Add roles" + ri + "</button><br>");
     }
 
+	function buildShowSource() {
+	$("#source").html("");
+	$("#mid-title").text("Viewing source");
+	$("#center-content").html('');
+	$("#source").append("<button id='view-source' class='view-source'>View source</button><br>");
+	}
+
     function buildEditRoles(event) {
         // hackish: extract from id 
         var ri = parseInt(event.target.id.substr(13));
@@ -360,7 +367,7 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
        buildRolesListing();
 	   
 	   $("#source").on("click", "button.show-source", showSource);
-       $("#source").append("<button id='show-source' class='show-source'>Show Source</button><br>");
+       $("#source").html("<button id='show-source' class='show-source'>Show Source</button><br>");
 
        /* Resize accordion */
        $("#accordion").accordion().resizable();
