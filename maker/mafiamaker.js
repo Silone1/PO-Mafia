@@ -24,7 +24,7 @@
                 theme = JSON.parse(resp);
                 buildUI(theme);
             } catch(e) {
-                alert(e);
+                $("#message").html("Error: "+e+" at "+e.lineNumber);
             }
         })
     }
