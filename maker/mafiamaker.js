@@ -30,7 +30,7 @@
     }
 
     function getTheme(url, callback) {
-       $.get("http://lamperi.name/fruit.json", callback); 
+       $.get(url, callback); 
     }
 
     function warnUnknownRoles(arr) {
@@ -361,7 +361,6 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
     }
 
     $(document).ready(function() {
-
         layout = $('body').layout({
             west__size: 300,
 	    west__onresize: $.layout.callbacks.resizePaneAccordions
@@ -378,6 +377,6 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
 
         });
         $("#message").text("Loaded");
-        buildThemeFromUrl("http://lamperi.name/lamperitheme.json")
+        buildThemeFromUrl("http://lamperi.name/fruit.json");
     });
 }())
