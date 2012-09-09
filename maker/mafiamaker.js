@@ -294,8 +294,9 @@ phase-action: { limit: number optional, command: real_command_name, common: 'Rol
             theme.roles.forEach(function (role2) {
                 select_elem.append("<option value='" + index2 + "'" + (role1 == role2.role ? " selected='selected'" : "") + ">" + role2.translation + "</option>");
                 ++index2;
-            })++index1;
-        })
+            });
+			++index1;
+        });
         $('#role-list-editor').append("<br><button id='pop-role'>Remove last</button><button id='push-role'>Add new role</button><br>")
         $("#push-role").click(function () {
             roles.push(theme.roles[0]);
