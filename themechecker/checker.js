@@ -897,7 +897,7 @@
             json = JSON.parse(content);
             setStatus("Theme parsed", STATUS_RESET);
         } catch (err) {
-            fatal("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
+            fatal("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a><br/>");
             return false;
         }
         theme = new Theme();
@@ -941,12 +941,14 @@
             theme.checkActions();
         } catch (err) {
             fatal("Couldn't check the entire code. The following error has occured: " + err);
+			setStatus("Couldn't check the entire code!");
         }
 
         println("");
         if (!fatalErrors.isEmpty()) {
             errorsFound = true;
             fatal("Fatal errors found in your theme:");
+			setStatus("Fatal them errors found!");
 
             printErrors(fatalErrors);
         }
@@ -958,6 +960,7 @@
         if (!minorErrors.isEmpty()) {
             errorsFound = true;
             minor("Minor errors found in your theme:");
+			setStatus("Minor errors found!");
 
             printErrors(minorErrors);
         } else {
