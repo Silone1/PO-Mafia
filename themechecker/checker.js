@@ -201,13 +201,13 @@
         $("#errors").append(toAppend + "<br/>");
     }
 
-    status = function (msg, reset) {
+    setStatus = function (msg, reset) {
         var func = reset ? "html" : "append";
         $("#status")[func](msg + "<br/>");
     }
 
     out = function (msg) {
-        status(msg);
+        setStatus(msg);
     }
 
     println = function (msg) {
@@ -885,9 +885,9 @@
             theme;
         try {
             json = JSON.parse(content);
-			//status("Theme parsed", STATUS_RESET);
+			setStatus("Theme parsed", STATUS_RESET);
         } catch (err) {
-            status("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
+            setStatus("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
             return;
         }
         theme = new Theme();
