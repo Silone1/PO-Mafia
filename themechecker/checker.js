@@ -1,5 +1,5 @@
 /* Utilities */
-(function () {
+//(function () {
     Object.defineProperty(String.prototype, "isEmpty", {
         "value": function () {
             var mess = this;
@@ -885,7 +885,7 @@
             theme;
         try {
             json = JSON.parse(content);
-			status("Theme parsed", STATUS_RESET);
+			//status("Theme parsed", STATUS_RESET);
         } catch (err) {
             status("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
             return;
@@ -968,4 +968,4 @@
         loadTheme($("textarea").val());
     }
 
-})();
+//})();
