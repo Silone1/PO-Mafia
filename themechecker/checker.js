@@ -991,13 +991,8 @@
             return; // Parsing Error.
         }
 
-        textarea.fadeOut("slow");
-        button.fadeOut("slow");
-
-        setTimeout(function () {
-            textarea.fadeIn("slow");
-            button.fadeIn("slow");
-        }, 2800);
+        textarea.slideDown(500).fadeOut("slow").delay(2300).fadeIn("slow");
+        button.slideUp(500).fadeOut("slow").delay(2300).fadeIn("slow");
     }
 
 })();
