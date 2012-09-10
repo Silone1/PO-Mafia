@@ -197,9 +197,11 @@
     STATUS_RESET = true;
 
     html = function (msg, color) {
+        if ($("span").html() === "") {
+            $("span").html("<br/>");
+        }
         var toAppend = msg ? "<font color='" + color + "'><b>" + msg + "</b></font>" : "";
-        $("#errors").append(toAppend + "<br/>");
-		console.log($("#errors").html());
+        $("span").append(toAppend + "<br/>"); // errorList
     }
 
     setStatus = function (msg, reset) {
@@ -972,12 +974,17 @@
     }
 
     checkTheme = function () {
-        var textarea = $("textarea");
+        var textarea = $("textarea"),
+            button = $("input");
         loadTheme(textarea.val());
+
         textarea.fadeOut("slow");
+        button.fadeOut("slow");
+
         setTimeout(function () {
             textarea.fadeIn("slow");
-        }, 6000);
+            button.fadeIn("slow");
+        }, 5000);
     }
 
 })();
