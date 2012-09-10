@@ -991,7 +991,7 @@
             return; // Parsing Error.
         }
 
-        textarea.slideDown(500).delay(500).fadeOut("slow").delay(1800).fadeIn("slow");
+        textarea.slideUp(500).delay(500).fadeOut("slow").delay(1800).fadeIn("slow");
         button.slideUp(500).delay(500).fadeOut("slow").delay(1800).fadeIn("slow");
     }
 
