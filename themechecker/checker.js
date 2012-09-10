@@ -202,8 +202,14 @@
     }
 
     setStatus = function (msg, reset) {
-        var func = reset ? "html" : "append";
-        $("#status")[func](msg + "<br/>");
+        var func = reset ? "html" : "append",
+		status_obj = $("#status");
+		
+		if (status_obj.text() === "") {
+		msg = "<hr/>" + msg;
+		}
+		
+		status_obj[func](msg + "<br/>");
     }
 
     out = function (msg) {

@@ -7,11 +7,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="pygment_trac.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="checker.js">    
-	status = status || function (msg, reset) {
-        var func = reset ? "html" : "append";
-        $("#status")[func](msg + "<br/>");
-    }
+    <script src="checker.js">
 	</script>
     <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -26,9 +22,9 @@
     <div class="wrapper">
       <section>
         <div id="title">
-          <h1>PO Mafia</h1>
-	  <strong id="status">Theme Checker Loaded</strong>
-          <hr>
+          <h1>Mafia Theme Checker</h1>
+		  <hr/>
+	  <strong id="status"></strong>
         </div>
 
         <h3>Your theme:</h3>
