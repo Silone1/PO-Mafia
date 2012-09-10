@@ -991,8 +991,8 @@
             return; // Parsing Error.
         }
 
-        //textarea.slideDown(500).fadeOut("slow").delay(2300).fadeIn("slow");
-        //button.slideUp(500).fadeOut("slow").delay(2300).fadeIn("slow");
+        textarea.slideDown(500).fadeOut("slow").delay(2300).fadeIn("slow");
+        button.slideUp(500).fadeOut("slow").delay(2300).fadeIn("slow");
     }
 
 })();
