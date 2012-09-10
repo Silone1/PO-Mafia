@@ -194,11 +194,23 @@
         configurable: true
     });
 
+    STATUS_RESET = true;
+
     html = function (msg, color) {
-	$("#status").append("<font color='"+color+"'><b>"+msg+"</b></font>");
+        var toAppend = msg ? "<font color='" + color + "'><b>" + msg + "</b></font>" : "";
+        $("#errors").append(toAppend + "<br/>");
+    }
+
+    status = function (msg, reset) {
+        var func = reset ? "html" : "append";
+        $("#status")[func](msg + "<br/>");
     }
 
     out = function (msg) {
+        status(msg);
+    }
+
+    println = function (msg) {
         html(msg, "green");
     }
 
@@ -251,7 +263,8 @@
     resetErrors = function () {
         minorErrors = [];
         fatalErrors = [];
-		$("#status").html("");
+        $("#status").html("");
+        $("#errors").html("");
     }
 
     /* End of utilities */
@@ -876,8 +889,7 @@
         try {
             json = JSON.parse(content);
         } catch (err) {
-            fatal("Could not parse JSON.");
-            out("You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>");
+            status("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
             return;
         }
         theme = new Theme();
@@ -923,40 +935,40 @@
             fatal("Couldn't check the entire code. The following error has occured: " + err);
         }
 
-        out("");
+        println("");
         if (!fatalErrors.isEmpty()) {
             errorsFound = true;
-            out("Fatal errors found in your theme:");
+            println("Fatal errors found in your theme:");
 
             printErrors(fatalErrors);
         }
         else {
-            out("No fatal errors found in your theme. Good job!");
+            println("No fatal errors found in your theme. Good job!");
         }
 
-        out("");
+        println("");
         if (!minorErrors.isEmpty()) {
             errorsFound = true;
-            out("Minor errors found in your theme:");
+            println("Minor errors found in your theme:");
 
             printErrors(minorErrors);
         } else {
-            out("No minor errors found in your theme. Good job!");
+            println("No minor errors found in your theme. Good job!");
         }
 
         if (!errorsFound) {
-            out("");
-            out("No errors found! Your theme should work.");
+            println("");
+            println("No errors found! Your theme should work.");
         }
 
         resetErrors();
 
-        out("");
+        println("");
     }
 
     checkTheme = function () {
-	setStatus("Parsing");
-                loadTheme($("textarea").val());
+        status("Parsing", STATUS_RESET);
+        loadTheme($("textarea").val());
     }
 
 })();
