@@ -963,7 +963,11 @@
         println("");
     }
 
-    checkTheme = function () {
+    checkTheme = function () {    
+	status = status || function (msg, reset) {
+        var func = reset ? "html" : "append";
+        $("#status")[func](msg + "<br/>");
+    }
         status("Parsing", STATUS_RESET);
         loadTheme($("textarea").val());
     }
