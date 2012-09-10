@@ -199,13 +199,14 @@
     html = function (msg, color) {
         var toAppend = msg ? "<font color='" + color + "'><b>" + msg + "</b></font>" : "";
         $("#errors").append(toAppend + "<br/>");
+		console.log($("#errors").html());
     }
 
     setStatus = function (msg, reset) {
         var func = reset ? "html" : "append",
             status_obj = $("#status");
 
-        if (status_obj.text() === "") {
+        if (status_obj.html() === "") {
             msg = "<hr/>" + msg;
         }
 
