@@ -203,13 +203,13 @@
 
     setStatus = function (msg, reset) {
         var func = reset ? "html" : "append",
-		status_obj = $("#status");
-		
-		if (status_obj.text() === "") {
-		msg = "<hr/>" + msg;
-		}
-		
-		status_obj[func](msg + "<br/>");
+            status_obj = $("#status");
+
+        if (status_obj.text() === "") {
+            msg = "<hr/>" + msg;
+        }
+
+        status_obj[func](msg + "<br/>");
     }
 
     out = function (msg) {
@@ -240,8 +240,8 @@
         } else {
             return "";
         }
-    } 
-	
+    }
+
     printErrors = function (errors) {
         var errorlist = "",
             x;
@@ -891,7 +891,7 @@
             theme;
         try {
             json = JSON.parse(content);
-			setStatus("Theme parsed", STATUS_RESET);
+            setStatus("Theme parsed", STATUS_RESET);
         } catch (err) {
             setStatus("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
             return;
@@ -971,8 +971,12 @@
     }
 
     checkTheme = function () {
-	out($("textarea").val());
-        loadTheme($("textarea").val());
+        var textarea = $("textarea");
+        loadTheme(textarea.val());
+        textarea.fadeOut("slow");
+        setTimeout(function () {
+            textarea.fadeIn("slow");
+        }, 6000);
     }
 
 })();
