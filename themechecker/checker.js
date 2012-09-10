@@ -1,5 +1,5 @@
 /* Utilities */
-//(function () {
+(function () {
     Object.defineProperty(String.prototype, "isEmpty", {
         "value": function () {
             var mess = this;
@@ -971,7 +971,8 @@
     }
 
     checkTheme = function () {
+	out($("textarea").val());
         loadTheme($("textarea").val());
     }
 
-//})();
+})();
