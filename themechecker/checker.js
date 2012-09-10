@@ -1,5 +1,3 @@
-/* Original code by IceKirby - https://github.com/IceKirby/mafia-checker */
-
 /* Utilities */
 (function () {
     Object.defineProperty(String.prototype, "isEmpty", {
@@ -196,25 +194,8 @@
         configurable: true
     });
 
-    pureHtml = function (msg) {
-        cli.printChannelMessage(msg, cli.currentChannel(), true);
-    }
-
-    println = function (msg) {
-        cli.printChannelMessage(msg, cli.currentChannel(), false);
-    }
-
-    printCommand = function (name, arg, help) {
-        pureHtml("<b>" + name + " [" + arg + "]:</b> " + help);
-    }
-
     html = function (msg, color) {
-        var send = "";
-        if (msg) {
-            send = "<font color='" + color + "'><timestamp/><b>~Client~:</b></font> " + msg;
-        }
-
-        pureHtml(send);
+	$("#status").append("<font color='"+color+"'><b>"+msg+"</b></font>");
     }
 
     out = function (msg) {
@@ -229,9 +210,6 @@
         html(msg, "red");
     }
 
-    cli = client;
-    net = cli.network();
-
     readable = function (arr, last_delim) {
         if (!Array.isArray(arr)) {
             return arr;
@@ -245,15 +223,6 @@
             return "";
         }
     }
-
-    isSafeScripts = function () {
-        var isOn = sys.isSafeScripts();
-        if (isOn) {
-            fatal("Safe scripts is on. Your theme can't be downloaded.");
-        }
-
-        return isOn;
-    }
 })();
 
 /* Mafia Theme Checker */
@@ -265,7 +234,7 @@
             errorlist += "&nbsp;&nbsp;&nbsp; \u2022 " + errors[x];
         }
 
-        pureHtml(errorlist + "<br/>");
+        html(errorlist + "<br/>");
     }
 
     var minorErrors = [],
@@ -282,6 +251,7 @@
     resetErrors = function () {
         minorErrors = [];
         fatalErrors = [];
+		$("#status").html("");
     }
 
     /* End of utilities */
@@ -984,376 +954,9 @@
         out("");
     }
 
-    checkTheme = function (url) {
-        out("Downloading your theme.");
-
-        sys.webCall(url, function (resp) {
-            if (resp === "") {
-                fatal("The page didn't exist or there was an error with retrieving the content of the page.");
-                return;
-            }
-
-            try {
-                loadTheme(resp);
-            } catch (e) {
-                fatal("Couldn't check your theme: " + e);
-            }
-
-        });
+    checkTheme = function () {
+	setStatus("Parsing");
+                loadTheme($("textarea").val());
     }
 
 })();
-
-/* Role List Preview */
-(function () {
-    function MafiaTheme() {}
-
-    MafiaTheme.prototype.getBorder = function () {
-        if (this.has("border")) {
-            return this.border;
-        }
-
-        return "*** *********************************************************************** ***";
-    }
-
-    MafiaTheme.prototype.addSide = function (obj) {
-        this.sideTranslations[obj.side] = obj.translation;
-    };
-
-    MafiaTheme.prototype.addRole = function (obj) {
-        this.roles[obj.role] = obj;
-
-/* // Reserved: /priority
-        var i, action;
-        if ("night" in obj.actions) {
-            for (i in obj.actions.night) {
-                var priority = obj.actions.night[i].priority;
-                action = i;
-                var role = obj.role;
-                this.nightPriority.push({
-                    'priority': priority,
-                    'action': action,
-                    'role': role
-                });
-            }
-            this.nightPriority.sort(function (a, b) {
-                return a.priority - b.priority;
-            });
-        }
-		*/
-    };
-
-    MafiaTheme.prototype.generateRoleInfo = function () {
-        var sep = this.getBorder(),
-            roles = [sep],
-            role, role_i = null,
-            role_order = this.roles.keys(),
-            this_roles = this.roles,
-            r, abilities, a, ability;
-
-        role_order.sort(function (a, b) {
-            var tra = this_roles[a].translation,
-                trb = this_roles[b].translation;
-
-            if (tra == trb) {
-                return 0;
-            }
-
-            else if (tra < trb) {
-                return -1;
-            }
-
-            return 1;
-        });
-
-        function trrole(s) {
-            return this.trrole(s);
-        }
-
-        function trside(s) {
-            return this.trside(s);
-        }
-
-        for (r = 0; r < role_order.length; ++r) {
-            try {
-                role = this.roles[role_order[r]];
-                roles.push("±Role: " + role.translation);
-
-                // check which abilities the role has
-                abilities = "";
-                if ("info" in role) {
-                    abilities = role.info;
-                } else {
-                    if (role.actions.night) {
-                        for (a in role.actions.night) {
-                            ability = role.actions.night[a];
-                            abilities += "Can " + a + " " + ("limit" in ability ? ability.limit + " persons" : "one person") + " during the night. ";
-                            if ("avoidHax" in role.actions && role.actions.avoidHax.indexOf(a) != -1) {
-                                abilities += "(Can't be detected by spies.) ";
-                            }
-                        }
-                    }
-                    if (role.actions.standby) {
-                        for (a in role.actions.standby) {
-                            ability = role.actions.standby[a];
-                            abilities += "Can " + a + " " + ("limit" in ability ? ability.limit + " persons" : "one person") + " during the standby. ";
-                        }
-                    }
-                    if ("vote" in role.actions) {
-                        abilities += "Vote counts as " + role.actions.vote + ". ";
-                    }
-                    if ("voteshield" in role.actions) {
-                        abilities += "Receives " + role.actions.voteshield + " extra votes if voted for at all. ";
-                    }
-                    if ("kill" in role.actions) {
-                        if (role.actions.kill.mode == "ignore") {
-                            abilities += "Can't be nightkilled. ";
-                        }
-                        else if (role.actions.kill.mode == "killattackerevenifprotected") {
-                            abilities += "Revenges nightkills (even when protected). ";
-                        }
-                        else if (role.actions.kill.mode == "killattacker") {
-                            abilities += "Revenges nightkills. ";
-                        }
-                        else if (role.actions.kill.mode == "poisonattacker" || role.actions.kill.mode == "poisonattackerevenifprotected") {
-                            abilities += "Poison attacker when killed. ";
-                        }
-                        else if (typeof role.actions.kill.mode == "object") {
-                            if ("ignore" in role.actions.kill.mode) {
-                                var ignoreRoles = role.actions.kill.mode.ignore.map(trrole, this);
-                                abilities += "Can't be nightkilled by " + readable(ignoreRoles, "and") + ". ";
-                            }
-                            if ("evadeChance" in role.actions.kill.mode && role.actions.kill.mode.evadeChance > 0) {
-                                abilities += "Has a " + Math.floor(role.actions.kill.mode.evadeChance * 100) + "% chance of evading nightkills. ";
-                            }
-                        }
-                    }
-                    if ("daykill" in role.actions) {
-                        if (role.actions.daykill == "evade") {
-                            abilities += "Can't be daykilled. ";
-                        }
-                        else if (role.actions.daykill == "revenge") {
-                            abilities += "Counter daykills. ";
-                        }
-                        else if (role.actions.daykill == "bomb") {
-                            abilities += "Revenges daykills. ";
-                        }
-                        else if (typeof role.actions.daykill == "object" && typeof role.actions.daykill.mode == "object" && role.actions.daykill.mode.evadeChance > 0) {
-                            abilities += "Has a " + Math.floor(role.actions.daykill.mode.evadeChance * 100) + "% chance of evading daykills. ";
-                        }
-                        else if (role.actions.daykill == "revealkiller") {
-                            abilities += "Reveals killer when daykilled. ";
-                        }
-                    }
-                    if ("poison" in role.actions) {
-                        if (role.actions.poison.mode == "ignore") {
-                            abilities += "Can't be poisoned. ";
-                        }
-                        else if (typeof role.actions.poison.mode == "object" && role.actions.poison.mode.evadeChance > 0) {
-                            abilities += "Has a " + Math.floor(role.actions.poison.mode.evadeChance * 100) + "% chance of evading poison. ";
-                        }
-                    }
-                    if ("hax" in role.actions && Object.keys) {
-                        var haxy = Object.keys(role.actions.hax);
-                        abilities += "Gets hax on " + readable(haxy, "and") + ". ";
-                    }
-                    if ("inspect" in role.actions) {
-                        if (Array.isArray(role.actions.inspect.revealAs)) {
-                            var revealAs = role.actions.inspect.revealAs.map(trrole, this);
-                            abilities += "Reveals as " + readable(revealAs, "or") + " when inspected. ";
-                        } else if (role.actions.inspect.revealAs == "*") {
-                            abilities += "Reveals as a random role when inspected. ";
-                        } else {
-                            abilities += "Reveals as " + this.roles[role.actions.inspect.revealAs].translation + " when inspected. ";
-                        }
-                    }
-                    if ("distract" in role.actions) {
-                        if (role.actions.distract.mode == "ChangeTarget") abilities += "Kills any distractors. ";
-                        if (role.actions.distract.mode == "ignore") abilities += "Ignores any distractors. ";
-                    }
-                    if ("initialCondition" in role.actions) {
-                        if ("poison" in role.actions.initialCondition) {
-                            abilities += "Dies at the end of night " + (role.actions.initialCondition.poison.count || 2) + ". ";
-                        }
-                    }
-                    if (typeof role.side == "string") {
-                        abilities += "Sided with " + this.trside(role.side) + ". ";
-                    } else if (typeof role.side == "object") {
-                        var plop = Object.keys(role.side.random);
-                        var tran = [];
-                        for (var p = 0; p < plop.length; ++p) {
-                            tran.push(this.trside(plop[p]));
-                        }
-                        abilities += "Sided with " + readable(tran, "or") + ". ";
-                    }
-                    if (role.hasOwnProperty("winningSides")) {
-                        if (role.winningSides == "*") {
-                            abilities += "Wins the game in any case. ";
-                        } else if (Array.isArray(role.winningSides)) {
-                            abilities += "Wins the game with " + readable(role.winningSides.map(trside, this), "or");
-                        }
-                    }
-                }
-                roles.push("±Ability: " + abilities);
-
-                // check on which player counts the role appears
-                var parts = [];
-                var end = 0;
-                for (var i = 1; i <= this.roleLists; ++i) {
-                    role_i = "roles" + i;
-                    var start = this[role_i].indexOf(role.role);
-                    var last = end;
-                    end = this[role_i].length;
-                    if (start >= 0) {
-                        ++start;
-                        start = start > last ? start : 1 + last;
-                        if (parts.length > 0 && parts[parts.length - 1][1] == start - 1) {
-                            parts[parts.length - 1][1] = end;
-                        } else {
-                            parts.push([start, end]);
-                            if (parts.length > 1) {
-                                parts[parts.length - 2] = parts[parts.length - 2][0] < parts[parts.length - 2][1] ? parts[parts.length - 2].join("-") : parts[parts.length - 2][1];
-                            }
-                        }
-                    }
-                }
-                if (parts.length > 0) {
-                    parts[parts.length - 1] = parts[parts.length - 1][0] < parts[parts.length - 1][1] ? parts[parts.length - 1].join("-") : parts[parts.length - 1][1];
-                }
-                roles.push("±Game: " + parts.join(", ") + " Players");
-
-                roles.push(sep);
-            } catch (err) {
-                if (role_i === null) {
-                    out("Error adding role " + role.translation + "(" + role.role + ") to /roles");
-                }
-                else {
-                    out("Error making rolelist with role id: " + role_i);
-                }
-                throw err;
-            }
-        }
-
-        this.roleInfo = roles;
-    };
-
-    /* Theme Loading and Storing */
-    MafiaTheme.prototype.trside = function (side) {
-        return this.sideTranslations[side];
-    };
-    MafiaTheme.prototype.trrole = function (role) {
-        return this.roles[role].translation;
-    };
-
-    MafiaTheme.prototype.printInfo = function () {
-        var info = this.roleInfo,
-            x;
-        for (x in info) {
-            println(info[x]);
-        }
-    }
-
-    loadThemeRoles = function (json) {
-        var theme = new MafiaTheme();
-        try {
-            theme.sideTranslations = {};
-            theme.roles = {};
-            theme.nightPriority = [];
-
-            // Init from the theme
-            var i;
-            for (i in json.sides) {
-                theme.addSide(json.sides[i]);
-            }
-            for (i in json.roles) {
-                theme.addRole(json.roles[i]);
-            }
-
-            theme.roles1 = json.roles1;
-            i = 2;
-            while (json.has("roles" + i)) {
-                theme["roles" + i] = json["roles" + i];
-                ++i;
-            }
-            theme.roleLists = i - 1;
-            if (theme.roleLists === 0) {
-                throw "Couldn't parse theme " + json.name + ": No role lists.";
-            }
-
-            theme.border = json.border;
-            theme.generateRoleInfo();
-            theme.printInfo();
-        } catch (err) {
-            out("Couldn't parse theme " + json.name + ": " + err + ".");
-        }
-    }
-    displayThemeRoles = function (url) {
-        out("Downloading your theme.");
-
-        sys.webCall(url, function (resp) {
-            if (resp === "") {
-                fatal("The page didn't exist or there was an error with retrieving the content of the page.");
-                return;
-            }
-
-            try {
-                loadThemeRoles(JSON.parse(resp));
-            } catch (e) {
-                fatal("Couldn't load your theme: " + e);
-            }
-
-        });
-    }
-})();
-
-/* Core */
-({
-    beforeSendMessage: function (message, channel) {
-        if ((message[0] == "~" || message[0] == "-") && message.length > 1) {
-            var commandData = "",
-                pos = message.indexOf(' ');
-            sys.stopEvent();
-
-            if (pos != -1) {
-                command = message.substring(1, pos).toLowerCase();
-                commandData = message.substr(pos + 1);
-            }
-            else {
-                command = message.substring(1).toLowerCase();
-            }
-
-            if (command == "commands") {
-                pureHtml("<font size='4'><b>Commands</b></font><br/>Start with '~' or '-' along with the command name to use these:<br/>");
-                printCommand("checktheme", "URL", "Checks the theme from <b>URL</b>. Safe scripts has to be off.");
-                printCommand("roles", "URL", "For a preview of /roles from the theme at <b>URL</b>. Make sure the theme works.");
-                printCommand("eval", "code", "Evaluates <b>code</b>");
-                out("");
-                return;
-            }
-
-            if (command == "checktheme") {
-                if (isSafeScripts()) {
-                    return;
-                }
-
-                checkTheme(commandData);
-                return;
-            }
-
-            if (command == "roles") {
-                if (isSafeScripts()) {
-                    return;
-                }
-
-                displayThemeRoles(commandData);
-                return;
-            }
-
-            if (command == "eval") {
-                out("Result:");
-                println(eval(commandData));
-                return;
-            }
-        }
-    },
-})
