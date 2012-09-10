@@ -197,9 +197,6 @@
     STATUS_RESET = true;
 
     html = function (msg, color) {
-        if ($("span").html() === "") {
-            $("span").html("<br/>");
-        }
         var toAppend = msg ? "<font color='" + color + "'><b>" + msg + "</b></font>" : "";
         $("span").append(toAppend + "<br/>"); // errorList
     }
@@ -246,13 +243,13 @@
     }
 
     printErrors = function (errors) {
-        var errorlist = "",
+        var errorlist = "<ul>",
             x;
         for (x in errors) {
-            errorlist += "&nbsp;&nbsp;&nbsp; \u2022 " + errors[x];
+            errorlist += "<li>" + errors[x] + "</li>";
         }
 
-        html(errorlist + "<br/>", "black");
+        html(errorlist + "</ul>", "black");
     }
 
     var minorErrors = [],
@@ -988,7 +985,7 @@
         setTimeout(function () {
             textarea.fadeIn("slow");
             button.fadeIn("slow");
-        }, 5000);
+        }, 2800);
     }
 
 })();
