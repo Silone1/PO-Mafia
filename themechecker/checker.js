@@ -885,6 +885,7 @@
             theme;
         try {
             json = JSON.parse(content);
+			status("Theme parsed", STATUS_RESET);
         } catch (err) {
             status("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
             return;
@@ -963,12 +964,7 @@
         println("");
     }
 
-    checkTheme = function () {    
-	status = status || function (msg, reset) {
-        var func = reset ? "html" : "append";
-        $("#status")[func](msg + "<br/>");
-    }
-        status("Parsing", STATUS_RESET);
+    checkTheme = function () {
         loadTheme($("textarea").val());
     }
 
