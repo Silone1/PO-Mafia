@@ -252,7 +252,7 @@
             errorlist += "&nbsp;&nbsp;&nbsp; \u2022 " + errors[x];
         }
 
-        html(errorlist + "<br/>");
+        html(errorlist + "<br/>", "black");
     }
 
     var minorErrors = [],
@@ -269,10 +269,13 @@
     resetErrors = function () {
         minorErrors = [];
         fatalErrors = [];
-        $("#status").html("");
-        $("#errors").html("");
     }
 
+	resetErrorMessages = function () {
+        $("#status").html("");
+        $("span").html("");
+	}
+	
     /* End of utilities */
     /* Mafia Theme Checker */
 
@@ -892,11 +895,12 @@
     loadTheme = function (content) {
         var json, x, y, roleList, cantLose, errorsFound = false,
             theme;
+			resetErrorMessages();
         try {
             json = JSON.parse(content);
             setStatus("Theme parsed", STATUS_RESET);
         } catch (err) {
-            setStatus("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
+            fatal("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
             return;
         }
         theme = new Theme();
@@ -945,7 +949,7 @@
         println("");
         if (!fatalErrors.isEmpty()) {
             errorsFound = true;
-            println("Fatal errors found in your theme:");
+            fatal("Fatal errors found in your theme:");
 
             printErrors(fatalErrors);
         }
@@ -956,11 +960,11 @@
         println("");
         if (!minorErrors.isEmpty()) {
             errorsFound = true;
-            println("Minor errors found in your theme:");
+            minor("Minor errors found in your theme:");
 
             printErrors(minorErrors);
         } else {
-            println("No minor errors found in your theme. Good job!");
+            println("No minor errors found in your theme.");
         }
 
         if (!errorsFound) {
