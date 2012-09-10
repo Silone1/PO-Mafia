@@ -1,42 +1,53 @@
 <!doctype html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Mafia Theme Checker</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="pygment_trac.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="checker.js">
-	</script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
-  </head>
-  <body>
-    <div class="wrapper">
-      <section>
-        <div id="title">
-          <h1>Mafia Theme Checker</h1>
-		  <hr/>
-	  <h2 id="status"></h2>
-        </div>
-
-        <h3>Your theme:</h3>
-<span id="errorList"></span>
-<form action="javascript:void 0;" method="get" onsubmit="checkTheme();">
-  <textarea rows="50" cols="100"/>Paste your theme here</textarea>
-  <input type="submit" value="Check" align="right"/>
-</form>
-</section>
-
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
     
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="chrome=1">
+        <title>
+            Mafia Theme Checker
+        </title>
+        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="pygment_trac.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
+        </script>
+        <script src="checker.js">
+        </script>
+        <!--[if lt IE 9]>
+            <script src="//html5shiv.googlecode.com/svn/trunk/html5.js">
+            </script>
+        <![endif]-->
+        <!--[if lt IE 8]>
+            <link rel="stylesheet" href="ie.css">
+        <![endif]-->
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    </head>
+    
+    <body>
+        <div class="wrapper">
+            <section>
+                <div id="title">
+                    <h1>
+                        Mafia Theme Checker
+                    </h1>
+                    <hr/>
+                    <h2 id="status">
+                    </h2>
+                </div>
+                <h3>
+                    Your theme:
+                </h3>
+                <span id="errorList">
+                </span>
+                <form action="javascript:void 0;" method="get" onsubmit="checkTheme();">
+                    <textarea rows="50" cols="100" />
+                    Paste your theme here
+                    </textarea>
+                    <input type="submit" value="Check" align="right" />
+                </form>
+            </section>
+        </div>
+        <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+    </body>
+
 </html>

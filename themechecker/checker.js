@@ -268,11 +268,11 @@
         fatalErrors = [];
     }
 
-	resetErrorMessages = function () {
+    resetErrorMessages = function () {
         $("#status").html("");
         $("span").html("");
-	}
-	
+    }
+
     /* End of utilities */
     /* Mafia Theme Checker */
 
@@ -892,13 +892,13 @@
     loadTheme = function (content) {
         var json, x, y, roleList, cantLose, errorsFound = false,
             theme;
-			resetErrorMessages();
+        resetErrorMessages();
         try {
             json = JSON.parse(content);
             setStatus("Theme parsed", STATUS_RESET);
         } catch (err) {
             fatal("Could not parse JSON.<br/>You might want to hone your syntax with <a href='http://jsonlint.com'>JSONLint</a>", STATUS_RESET);
-            return;
+            return false;
         }
         theme = new Theme();
 
@@ -972,12 +972,17 @@
         resetErrors();
 
         println("");
+
+        return true;
     }
 
     checkTheme = function () {
         var textarea = $("textarea"),
             button = $("input");
-        loadTheme(textarea.val());
+
+        if (!loadTheme(textarea.val())) {
+            return; // Parsing Error.
+        }
 
         textarea.fadeOut("slow");
         button.fadeOut("slow");
