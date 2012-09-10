@@ -234,11 +234,8 @@
         } else {
             return "";
         }
-    }
-})();
-
-/* Mafia Theme Checker */
-(function () {
+    } 
+	
     printErrors = function (errors) {
         var errorlist = "",
             x;
