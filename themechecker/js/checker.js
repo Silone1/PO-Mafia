@@ -373,16 +373,16 @@
                         }
 
                         if (command == "kill") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "msg", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "msg", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                             if (action.has("msg")) {
                                 checkType(action.msg, ["string"], "Role " + yourRole + "'s attribute \"msg\" for night action \"" + command + "\"");
                             }
                         } else if (command == "protect") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                         } else if (command == "inspect") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "Sight", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "Sight", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                             if (action.has("Sight")) {
                                 if (typeof action.Sight == "string") {
@@ -399,7 +399,7 @@
                                 }
                             }
                         } else if (command == "distract") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "distractmsg", "teammsg", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "distractmsg", "teammsg", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                             if (action.has("distractmsg")) {
                                 checkType(action.distractmsg, ["string"], "Role " + yourRole + "'s attribute \"distractmsg\" for night action \"" + command + "\"");
@@ -408,7 +408,7 @@
                                 checkType(action.teammsg, ["string"], "Role " + yourRole + "'s attribute \"teammsg\" for night action \"" + command + "\"");
                             }
                         } else if (command == "poison") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "count", "poisonDeadMessage", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "count", "poisonDeadMessage", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                             if (action.has("count")) {
                                 checkType(action.count, ["number"], "Role " + yourRole + "'s attribute \"count\" for night action \"" + command + "\"");
@@ -417,13 +417,13 @@
                                 checkType(action.poisonDeadMessage, ["string"], "Role " + yourRole + "'s attribute \"poisonDeadMessage\" for night action \"" + command + "\"");
                             }
                         } else if (command == "safeguard") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                         } else if (command == "stalk") {
-                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                         } else if (command == "convert") {
-                            checkAttributes(action, ["target", "common", "priority", "newRole"], ["broadcast", "command", "limit", "canConvert", "convertmsg", "failChance", "recharge", "initialrecharge", "silent", "broadcastmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
+                            checkAttributes(action, ["target", "common", "priority", "newRole"], ["broadcast", "command", "limit", "canConvert", "convertmsg", "failChance", "recharge", "initialrecharge", "silent", "broadcastmsg", "charges"], "Role " + yourRole + "'s night action \"" + command + "\"");
                             commonNightActions(yourRole, action, command);
                             if (action.has("silent")) {
                                 checkValidValue(action.silent, [true, false], "Role " + yourRole + "'s night action \"" + command + "\" has a invalid value for \"silent\": %1 (%2)");
