@@ -362,7 +362,6 @@
             var possibleNightActions = ["kill", "protect", "inspect", "distract", "poison", "safeguard", "stalk", "convert"],
                 command, o, possibleStandbyActions = ["kill", "reveal", "expose"];
 
-
             if (role.actions.has("night") && checkType(role.actions.night, ["object"], "Role " + yourRole + "'s night actions")) {
                 for (e in role.actions.night) {
                     action = role.actions.night[e];
@@ -374,16 +373,16 @@
 
                         if (command == "kill") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "msg", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                             if (action.has("msg")) {
                                 checkType(action.msg, ["string"], "Role " + yourRole + "'s attribute \"msg\" for night action \"" + command + "\"");
                             }
                         } else if (command == "protect") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                         } else if (command == "inspect") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "Sight", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                             if (action.has("Sight")) {
                                 if (typeof action.Sight == "string") {
                                     checkValidValue(action.Sight, ["Team"], "Role " + yourRole + "'s night action \"" + command + "\" has a invalid value for \"target\": %1 (%2)");
@@ -400,7 +399,7 @@
                             }
                         } else if (command == "distract") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "distractmsg", "teammsg", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                             if (action.has("distractmsg")) {
                                 checkType(action.distractmsg, ["string"], "Role " + yourRole + "'s attribute \"distractmsg\" for night action \"" + command + "\"");
                             }
@@ -409,7 +408,7 @@
                             }
                         } else if (command == "poison") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "count", "poisonDeadMessage", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                             if (action.has("count")) {
                                 checkType(action.count, ["number"], "Role " + yourRole + "'s attribute \"count\" for night action \"" + command + "\"");
                             }
@@ -418,13 +417,13 @@
                             }
                         } else if (command == "safeguard") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                         } else if (command == "stalk") {
                             checkAttributes(action, ["target", "common", "priority"], ["broadcast", "command", "limit", "failChance", "recharge", "initialrecharge", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                         } else if (command == "convert") {
                             checkAttributes(action, ["target", "common", "priority", "newRole"], ["broadcast", "command", "limit", "canConvert", "convertmsg", "failChance", "recharge", "initialrecharge", "silent", "broadcastmsg", "charges", "chargesmsg"], "Role " + yourRole + "'s night action \"" + command + "\"");
-                            commonNightActions(yourRole, action, command);
+                            commonNightActions(yourRole, action, command, this.roles);
                             if (action.has("silent")) {
                                 checkValidValue(action.silent, [true, false], "Role " + yourRole + "'s night action \"" + command + "\" has a invalid value for \"silent\": %1 (%2)");
                             }
@@ -558,6 +557,22 @@
                         }
                         if (role.actions.hax[e].has("revealRole")) {
                             checkType(role.actions.hax[e].revealRole, ["number"], "Role " + yourRole + "s hax on " + e + " (revealRole)");
+                        }
+                    }
+                }
+            }
+            if (role.actions.has("standbyHax") && checkType(role.actions.standbyHax, ["object"], "Role " + yourRole + "'s standbyHax")) {
+                for (e in role.actions.standbyHax) {
+                    checkAttributes(role.actions.standbyHax[e], [], ["revealTeam", "revealPlayer", "revealRole"], "Role " + yourRole + "'s standbyHax on \"" + e + "\"");
+                    if (typeof role.actions.standbyHax[e] == "object") {
+                        if (role.actions.standbyHax[e].has("revealTeam")) {
+                            checkType(role.actions.standbyHax[e].revealTeam, ["number"], "Role " + yourRole + "s standbyHax on " + e + " (revealTeam)");
+                        }
+                        if (role.actions.standbyHax[e].has("revealPlayer")) {
+                            checkType(role.actions.standbyHax[e].revealPlayer, ["number"], "Role " + yourRole + "s standbyHax on " + e + " (revealPlayer)");
+                        }
+                        if (role.actions.standbyHax[e].has("revealRole")) {
+                            checkType(role.actions.standbyHax[e].revealRole, ["number"], "Role " + yourRole + "s standbyHax on " + e + " (revealRole)");
                         }
                     }
                 }
@@ -704,6 +719,15 @@
                     }
                 }
             }
+            if (role.actions.has("avoidStandbyHax") && checkType(role.actions.avoidStandbyHax, ["array"], "Role " + yourRole + "'s avoidStandbyHax")) {
+                action = role.actions.avoidStandbyHax;
+                checkType(action, ["array"], "Role " + yourRole + "'s avoidStandbyHax action");
+                if (Array.isArray(action)) {
+                    for (e in action) {
+                        checkType(action[e], ["string"], "Role " + yourRole + "'s \"avoidStandbyHax on " + action[e] + "\"");
+                    }
+                }
+            }
             if (role.actions.has("initialCondition") && checkType(role.actions.initialCondition, ["object"], "Role " + yourRole + "'s initialCondition attribute")) {
                 action = role.actions.initialCondition;
                 checkAttributes(action, [], ["poison", "clearPoison"], "Role " + yourRole + "'s \"initialCondition\" action");
@@ -768,6 +792,7 @@
 
     themeProto.checkActions = function () {
         var r, e, i, role, action, night = [],
+            day = [],
             roles = this.roles;
 
         for (r in roles) {
@@ -776,6 +801,13 @@
                 for (e in role.night) {
                     if (!night.has(e)) {
                         night.push(e);
+                    }
+                }
+            }
+            if (role.has("standby")) {
+                for (e in role.standby) {
+                    if (!day.has(e)) {
+                        day.push(e);
                     }
                 }
             }
@@ -794,6 +826,20 @@
                 for (e in role.avoidHax) {
                     if (!night.has(role.avoidHax[e])) {
                         addMinorError("Your role \"" + r + "\" avoids hax from an inexistent " + role.avoidHax[e] + " action.");
+                    }
+                }
+            }
+            if (role.has("standbyHax")) {
+                for (e in role.standbyHax) {
+                    if (!day.has(e)) {
+                        addMinorError("Your role \"" + r + "\" gets standby hax on an inexistent " + e + " action.");
+                    }
+                }
+            }
+            if (role.has("avoidStandbyHax")) {
+                for (e in role.avoidStandbyHax) {
+                    if (!night.has(role.avoidStandbyHax[e])) {
+                        addMinorError("Your role \"" + r + "\" avoids standby hax from an inexistent " + role.avoidStandbyHax[e] + " action.");
                     }
                 }
             }
@@ -859,7 +905,7 @@
         }
     }
 
-    commonNightActions = function (yourRole, action, command) {
+    commonNightActions = function (yourRole, action, command, roles) {
         if (action.has("target")) {
             checkValidValue(action.target, ["Any", "Self", "AnyButTeam", "AnyButRole", "AnyButSelf", "OnlySelf"], "Role " + yourRole + "'s night action \"" + command + "\" has a invalid value for \"target\": %1 (%2)");
         }
@@ -870,7 +916,25 @@
             checkType(action.priority, ["number"], "Role " + yourRole + "'s attribute \"priority\" for night action \"" + command + "\"");
         }
         if (action.has("broadcast")) {
-            checkValidValue(action.broadcast.toLowerCase(), ["none", "team", "role"], "Role " + yourRole + "'s night action \"" + command + "\" has a invalid value for \"broadcast\": %1 (%2)");
+            if (typeof action.broadcast === "string") {
+                checkValidValue(action.broadcast.toLowerCase(), ["none", "team", "role"], "Role " + yourRole + "'s night action \"" + command + "\" has a invalid value for \"broadcast\": %1 (%2)");
+            } else if (Array.isArray(action.broadcast)) {
+                var x, curr, b = action.broadcast,
+                    roleList = [];
+                for (x in roles) {
+                    roleList.push(roles[x].role);
+                }
+
+                for (x in b) {
+                    curr = b[x];
+                    if (!roles.has(curr)) {
+                        addMinorError("Your role " + yourRole + "'s attribute \"broadcast\" has an inexistant role \"" + curr + "\"");
+                    }
+                }
+
+            } else {
+                checkType(action.broadcast, ["number"], /* w/e */ "Role " + yourRole + "'s attribute \"broadcast\" for night action \"" + command + "\"");
+            }
         }
         if (action.has("limit")) {
             checkType(action.limit, ["number"], "Role " + yourRole + "'s attribute \"limit\" for night action \"" + command + "\"");
