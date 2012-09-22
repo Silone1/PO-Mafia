@@ -169,7 +169,7 @@
 })();
 
 $(document).ready(function () {
-    var CreateNew = $("#CreateNew");
+    var CreateNew = $("#CreateNew"), Tabs = $("#Tabs");
 
     CreateNew.button();
     CreateNew.click(function () {
@@ -178,10 +178,16 @@ $(document).ready(function () {
 
     $("#UseTheme").button();
     
-    $("#Tabs").tabs();
+    Tabs.tabs();
     
-    $("#Dialog-Start").addClass("ui-state-highlight").dialog({
+    Tabs.bind("tabsselect", function (event, ui) {
+    console.log(ui.tab);
+    console.log(ui.panel);
+    console.log(ui.index);
+    });
+    
+    /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
 			modal: true
-		});
+		});*/
 });
