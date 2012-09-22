@@ -1,3 +1,5 @@
+themeImported = false;
+
 /* Utilities */
 (function () {
     Object.defineProperty(String.prototype, "isEmpty", {
@@ -164,6 +166,7 @@
 
         textarea.fadeOut("slow");
         button.fadeOut("slow");
+        themeImported = true;
     }
 })();
 
@@ -173,6 +176,13 @@ $(document).ready(function () {
 
     Tabs.tabs({
         "select": function (event, ui) {
+            if (ui.index === 0) { // Importing Panel
+                if (themeImported) {
+                    $("#LoadTheme").fadeIn("fast");
+                    $("#UseTheme").fadeIn("fast");
+                    themeImported = false;
+                }
+            }
             if (ui.index === 2) { // Source
                 $("#Source").val("{}");
             }
