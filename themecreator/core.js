@@ -165,29 +165,28 @@
         textarea.fadeOut("slow");
         button.fadeOut("slow");
     }
-    
-    handleTabSelection = function (tabName) {
-    if (tabName === "Importing") {
-    } else if (tabName === "Editing") {
-    } else if (tabName === "Source") {
-    $("#Source").val("{}");
-    }
-    }
 })();
 
 $(document).ready(function () {
-    var CreateNew = $("#CreateNew"), Tabs = $("#Tabs");
+    var CreateNew = $("#CreateNew"),
+        Tabs = $("#Tabs");
 
-    CreateNew.button();
+    CreateNew.button({icons: {primary: "ui-icon-plusthick"}});
     CreateNew.click(function () {
         useTheme("{}");
     });
 
     $("#UseTheme").button();
-    
-    Tabs.tabs();
-    
-    /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
+
+    Tabs.tabs({
+        "select": function (event, ui) {
+            if (ui.index === 2) {
+                $("#Source").val("{}");
+            }
+        }
+    });
+
+/*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
 			modal: true
 		});*/
