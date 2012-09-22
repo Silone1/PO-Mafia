@@ -158,7 +158,7 @@ Theme = false;
         try {
             res = JSON.parse(text);
         } catch (e) {
-            dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "{INFO} Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."], "error");
+            dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "{INFO} Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."]);
             return false;
         }
 
@@ -183,18 +183,8 @@ Theme = false;
         themeImported = true;
     }
 
-    dialog = function (title, text, cssClass) {
+    dialog = function (title, text) {
     var x, res = "";
-    
-    if (!cssClass) {
-    cssClass = "";
-    }
-    
-    if (cssClass === "highlight") {
-        cssClass = "ui-state-highlight";
-    } else if (cssClass === "error") {
-        cssClass = "ui-state-error";
-    }
     
     for (x in text) {
     res += "<p>"+text[x]+"</p>";
@@ -203,11 +193,11 @@ Theme = false;
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>");
     res = res.replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
     
-        $("#Dialog").html(res).addClass(cssClass).prop("title", title).dialog({
+        $("#Dialog").html(res).prop("title", title).dialog({
             modal: true,
             buttons: {
                 Ok: function () {
-                    $(this).dialog("close").removeClass(cssClass);
+                    $(this).dialog("close");
                 }
             }
         });
@@ -230,14 +220,14 @@ $(document).ready(function () {
             }
             if (ui.index === 1) { // Editing Panel
                 if (Theme === false) {
-                    dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."], "error");
-                    return;
+                    dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
+                    return false;
                 }
             }
             if (ui.index === 2) { // Source
                 if (Theme === false) {
-                    dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."], "error");
-                    return;
+                    dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."]);
+                    return false;
                 }
                 $("#Source").val(JSON.stringify(Theme));
             }
