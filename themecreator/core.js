@@ -287,7 +287,7 @@ $(document).ready(function () {
         
         setTimeout(function () {
             $("#Dialog").dialog("close");
-        }, 2500);
+        }, 1500);
         
         Tabs.tabs("select", 1); // Editing Panel
     });
