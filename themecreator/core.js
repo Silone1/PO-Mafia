@@ -164,18 +164,10 @@ Theme = false;
         Theme = res;
     }
 
-    useTheme = function (none) {
-        var textarea = $("#LoadTheme"),
-            button = $("#UseTheme"),
-            val = textarea.val();
-
-        if (none) {
-            Theme = {};
-        } else {
-            if (!loadTheme(val)) {
-                return; // Parsing Error.
-            }
-        }
+    useTheme = function () {
+        var val = $("#LoadTheme").val();
+            
+            loadTheme(val);
     }
 
     dialog = function (title, text) {
@@ -192,7 +184,7 @@ Theme = false;
         $("#Dialog").html(res).prop("title", title).dialog({
             modal: true,
             width: 300,
-            height: 150,
+            height: 200,
             buttons: {
                 "Ok": function () {
                     $(this).dialog("close");
@@ -257,7 +249,7 @@ $(document).ready(function () {
         }
     });
     CreateNew.click(function () {
-        useTheme(true);
+        Theme = {};
     });
 
     $("#UseTheme").button({
