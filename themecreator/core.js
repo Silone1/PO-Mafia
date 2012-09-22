@@ -187,11 +187,14 @@ Theme = false;
             modal: true,
             width: 300,
             height: 200,
-            buttons: {
-                "Ok": function () {
+            buttons: [
+            {
+            "text": "Ok",
+            "click": function () {
                     $("#Dialog").dialog("close");
                 }
             }
+            ]
         });
     }
 
