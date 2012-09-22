@@ -293,8 +293,7 @@ $(document).ready(function () {
 
     $("#UseTheme").button({
         icons: {
-            primary: "ui-icon-script",
-            secondary: "ui-icon-pencil"
+            primary: "ui-icon-script"
         }
     });
 });
