@@ -181,8 +181,6 @@ $(document).ready(function () {
     Tabs.tabs();
     
     Tabs.bind("tabsselect", function (event, ui) {
-    console.log(ui.tab);
-    console.log(ui.panel);
     console.log(ui.index);
     });
     
