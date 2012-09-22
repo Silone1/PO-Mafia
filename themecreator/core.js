@@ -1,5 +1,3 @@
-Theme = false;
-
 /* Utilities */
 (function () {
     Object.defineProperty(String.prototype, "isEmpty", {
@@ -151,6 +149,9 @@ Theme = false;
         enumerable: false,
         configurable: true
     });
+})();
+
+Theme = false;
 
     loadTheme = function (text) {
         var res;
@@ -166,8 +167,7 @@ Theme = false;
 
     useTheme = function () {
         var val = $("#LoadTheme").val();
-            
-            loadTheme(val);
+        loadTheme(val);
     }
 
     dialog = function (title, text) {
@@ -181,7 +181,9 @@ Theme = false;
 
         res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-        $("#Dialog").html(res).prop("title", title).dialog({
+        $("#Dialog").html(res).prop("title", title);
+        
+        $("#Dialog").dialog({
             modal: true,
             width: 300,
             height: 200,
@@ -201,15 +203,42 @@ Theme = false;
         };
     }
 
-    set = function (obj, id) {
+    set = function (obj, id, hook) {
         var input = getInput(id);
+        
         if (!input.value) {
+            if (obj.has(input.property)) {
+                delete obj[input.property];
+            }
             return;
         }
 
+        if (hook) {
+            input = hook(input);
+        }
+        
         obj[input.property] = input.value;
     }
-})();
+    
+    Hooks = {};
+    Hooks.Number = function (input) {
+        input.value = input.value * 1;
+        return input;
+    }
+    
+    Hooks.Array = function (input) {
+        input.value = input.value.split(", ");
+        
+        if (input.value.length < 2) {
+            input.value = input.value[0];
+        }
+        return input;
+    }
+        
+    setThemeValues = function () {
+        set(Theme, "Theme-Name");
+        set(Theme, "Theme-VillageCantLoseRoles", Hooks.Array);
+    }
 
 $(document).ready(function () {
     var CreateNew = $("#CreateNew"),
@@ -224,8 +253,6 @@ $(document).ready(function () {
                     dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
                     return false;
                 }
-
-                console.log(getInput("Theme-Name").property, getInput("Theme-Name").value);
             }
             if (ui.index === 2) { // Source
                 if (Theme === false) {
@@ -233,7 +260,7 @@ $(document).ready(function () {
                     return false;
                 }
                 
-                set(Theme, "Theme-Name");
+                setThemeValues();
                 $("#Source").val(JSON.stringify(Theme));
 
             }
