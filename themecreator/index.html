@@ -24,16 +24,17 @@
     
     <body>
         <div class="page">
+        <div id="Status" align="right"></div>
             <div id="Tabs">
                 <ul>
                     <li>
-                        <a href="#Tabs-1">Importing Panel</a>
+                        <a href="#Tabs-1" onclick="handleTabSelection('Importing');">Importing Panel</a>
                     </li>
                     <li>
-                        <a href="#Tabs-2">Editing Panel</a>
+                        <a href="#Tabs-2" onclick="handleTabSelection('Editing');">Editing Panel</a>
                     </li>
                     <li>
-                        <a href="#Tabs-3">Source</a>
+                        <a href="#Tabs-3" onclick="handleTabSelection('Source');">Source</a>
                     </li>
                 </ul>
                 <div id="Tabs-1">

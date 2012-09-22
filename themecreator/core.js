@@ -173,7 +173,6 @@
     $("#Source").val("{}");
     }
     }
-
 })();
 
 $(document).ready(function () {
