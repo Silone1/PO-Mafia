@@ -192,7 +192,7 @@ Theme = false;
         $("#Dialog").html(res).prop("title", title).dialog({
             modal: true,
             width: 300,
-            height: 300,
+            height: 150,
             buttons: {
                 "Ok": function () {
                     $(this).dialog("close");
