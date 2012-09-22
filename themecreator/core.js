@@ -183,6 +183,7 @@ dialog = function (title, text) {
 
     $("#Dialog").html(res).prop("title", title);
 
+    /*
     $("#Dialog").dialog("destroy").dialog({
         modal: true,
         width: 300,
@@ -194,6 +195,17 @@ dialog = function (title, text) {
             }
         }]
     });
+    */
+    
+	
+		$( "#Dialog" ).dialog({
+			modal: true,
+			buttons: {
+				Ok: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
 }
 
 getInput = function (id) {
