@@ -189,7 +189,7 @@ Theme = false;
             height: 200,
             buttons: [
             {
-            "text": "Ok",
+            "text": "OK",
             "click": function () {
                     $("#Dialog").dialog("close");
                 }
