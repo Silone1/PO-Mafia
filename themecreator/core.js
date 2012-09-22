@@ -183,7 +183,7 @@ dialog = function (title, text) {
 
     $("#Dialog").html(res).prop("title", title);
 
-    $("#Dialog").dialog({
+    $("#Dialog").dialog("destroy").dialog({
         modal: true,
         width: 300,
         height: 200,
