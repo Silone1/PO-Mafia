@@ -1,4 +1,3 @@
-themeImported = false;
 Theme = false;
 
 /* Utilities */
@@ -169,31 +168,27 @@ Theme = false;
         var textarea = $("#LoadTheme"),
             button = $("#UseTheme"),
             val = textarea.val();
-            
+
         if (none) {
             Theme = {};
         } else {
-        if (!loadTheme(val)) {
-            return; // Parsing Error.
+            if (!loadTheme(val)) {
+                return; // Parsing Error.
+            }
         }
-        }
-
-        textarea.fadeOut("slow");
-        button.fadeOut("slow");
-        themeImported = true;
     }
 
     dialog = function (title, text) {
-    var x, res = "<b>";
-    
-    for (x in text) {
-    res += "<p>"+text[x]+"</p>";
-    }
-    
-    res += "</b>";
-    
-    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
-    
+        var x, res = "<b>";
+
+        for (x in text) {
+            res += "<p>" + text[x] + "</p>";
+        }
+
+        res += "</b>";
+
+        res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
+
         $("#Dialog").html(res).prop("title", title).dialog({
             modal: true,
             width: 300,
@@ -205,18 +200,21 @@ Theme = false;
             }
         });
     }
-    
+
     getInput = function (id) {
-        var prop = $("#"+id);
-        return {"property": prop.prop("name"), "value": prop.val()};
+        var prop = $("#" + id);
+        return {
+            "property": prop.prop("name"),
+            "value": prop.val()
+        };
     }
 
     set = function (obj, id) {
         var input = getInput(id);
         if (!input.value) {
-        return;
+            return;
         }
-        
+
         obj[input.property] = input.property;
     }
 })();
@@ -228,18 +226,13 @@ $(document).ready(function () {
     Tabs.tabs({
         "select": function (event, ui) {
             if (ui.index === 0) { // Importing Panel
-                if (themeImported) {
-                    $("#LoadTheme").fadeIn("fast");
-                    $("#UseTheme").fadeIn("fast");
-                    themeImported = false;
-                }
             }
             if (ui.index === 1) { // Editing Panel
                 if (Theme === false) {
                     dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
                     return false;
                 }
-                
+
                 console.log(getInput("Theme-Name"));
                 set(Theme, "Theme-Name");
             }
@@ -273,9 +266,4 @@ $(document).ready(function () {
             secondary: "ui-icon-pencil"
         }
     });
-
-/*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
-			height: 140,
-			modal: true
-		});*/
 });
