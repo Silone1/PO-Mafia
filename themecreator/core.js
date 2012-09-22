@@ -207,7 +207,7 @@ Theme = false;
             return;
         }
 
-        obj[input.property] = input.property;
+        obj[input.property] = input.value;
     }
 })();
 
