@@ -165,6 +165,14 @@
         textarea.fadeOut("slow");
         button.fadeOut("slow");
     }
+    
+    handleTabSelection = function (tabName) {
+    if (tabName === "Importing") {
+    } else if (tabName === "Editing") {
+    } else if (tabName === "Source") {
+    $("#Source").val("{}");
+    }
+    }
 
 })();
 
@@ -179,10 +187,6 @@ $(document).ready(function () {
     $("#UseTheme").button();
     
     Tabs.tabs();
-    
-    Tabs.bind("tabsselect", function (event, ui) {
-    console.log(ui.index);
-    });
     
     /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
