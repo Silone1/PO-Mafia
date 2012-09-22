@@ -198,7 +198,7 @@ $(document).ready(function () {
         useTheme("{}");
     });
 
-    $("#UseTheme").button({icons: {primary: "ui-icon-pencil"}});
+    $("#UseTheme").button({icons: {primary: "ui-icon-script", secondary: "ui-icon-pencil"}});
     
 /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
