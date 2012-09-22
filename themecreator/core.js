@@ -183,19 +183,20 @@ dialog = function (title, text) {
 
     $("#Dialog").html(res).prop("title", title);
 
-    (function () {
     $("#Dialog").dialog({
         modal: true,
         width: 300,
         height: 200,
-        buttons: [{
-            text: "Ok",
-            click: function () {
+        resizable: false,
+        buttons: {
+        Ok: function () {
+                $(this).dialog("close");
+            },
+            Cancel: function () {
                 $(this).dialog("close");
             }
-        }]
+        }
     });
-    }());
 }
 
 getInput = function (id) {
