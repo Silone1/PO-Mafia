@@ -22,16 +22,6 @@
         configurable: true
     });
 
-    Object.defineProperty(String.prototype, "has", {
-        "value": function (string) {
-            return this.contains(string);
-        },
-
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
-
     Object.defineProperty(String.prototype, "format", {
         "value": function () {
             var str = this,
@@ -100,33 +90,9 @@
         configurable: true
     });
 
-    Object.defineProperty(Object.prototype, "contains", {
-        "value": function (prop) {
-            return this.has(prop);
-        },
-
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
-
     Object.defineProperty(Object.prototype, "insert", {
         "value": function (name, val) {
             this[name] = val;
-        },
-
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
-
-    Object.defineProperty(Object.prototype, "remove", {
-        "value": function (name) {
-            if (!this.has(name)) {
-                return;
-            }
-
-            delete this[name];
         },
 
         writable: true,
@@ -177,16 +143,6 @@
     Object.defineProperty(Array.prototype, "isEmpty", {
         "value": function () {
             return this.length === 0;
-        },
-
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
-
-    Object.defineProperty(Array.prototype, "contains", {
-        "value": function (prop) {
-            return this.has(prop);
         },
 
         writable: true,
