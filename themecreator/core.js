@@ -171,21 +171,23 @@ $(document).ready(function () {
     var CreateNew = $("#CreateNew"),
         Tabs = $("#Tabs");
 
+    Tabs.tabs({
+        "select": function (event, ui) {
+            if (ui.index === 2) { // Source
+                $("#Source").val("{}");
+            }
+        }
+    });
+
+    $("#Theme").accordion();
+
     CreateNew.button({icons: {primary: "ui-icon-plusthick"}});
     CreateNew.click(function () {
         useTheme("{}");
     });
 
     $("#UseTheme").button();
-
-    Tabs.tabs({
-        "select": function (event, ui) {
-            if (ui.index === 2) {
-                $("#Source").val("{}");
-            }
-        }
-    });
-
+    
 /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
 			modal: true

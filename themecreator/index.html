@@ -1,6 +1,5 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
-    
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -9,8 +8,8 @@
         </title>
         <script src="jquery-1.8.0.min.js">
         </script>
-        <link type="text/css" href="ui-lightness/jquery-ui-1.8.23.custom.css" rel="Stylesheet"
-        />
+        <link type="text/css" href="ui-lightness/jquery-ui-1.8.23.custom.css"
+        rel="Stylesheet" />
         <script type="text/javascript" src="jquery-ui-1.8.23.min.js">
         </script>
         <script src="core.js">
@@ -24,7 +23,8 @@
     
     <body>
         <div class="page">
-        <div id="Status" align="right"></div>
+            <div id="Status" align="right">
+            </div>
             <div id="Tabs">
                 <ul>
                     <li>
@@ -43,20 +43,34 @@
                     </h2>
                     <br/>
                     <form action="javascript:void 0;" onsubmit="useTheme();">
-                        <textarea rows="15" cols="75" id="LoadTheme">
-                        </textarea>
+                        <textarea rows="15" cols="75" id="LoadTheme"></textarea>
                         <br/>
-                        <input type="submit" value="Use" id="UseTheme"> | <button id="CreateNew">Or create a new mafia theme</button>
+                        <button id="CreateNew"> Create New </button> | <input type="submit" value="Use" id="UseTheme">
                     </form>
                 </div>
                 <div id="Tabs-2">
+                    <div id="Theme">
+                        <h2>
+                            <a href="#Globals">Globals</a>
+                        </h2>
+                        <div id="Globals">
+                        </div>
+                        <h2>
+                            <a href="#Sides">Sides</a>
+                        </h2>
+                        <div id="Sides">
+                        </div>
+                        <h2>
+                            <a href="#">Roles</a>
+                        </h2>
+                        <div id="#Roles">
+                        </div>
+                    </div>
                 </div>
                 <div id="Tabs-3">
-                <textarea rows="15" cols="100" id="Source">
-                </textarea>
+                    <textarea rows="15" cols="100" id="Source"></textarea>
                 </div>
             </div>
         </div>
     </body>
-
 </html>
