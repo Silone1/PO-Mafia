@@ -185,7 +185,12 @@ dialog = function (title, text) {
         modal: true,
         width: 300,
         height: 200,
-        resizable: false
+        resizable: false,
+        buttons: {
+        "Ok": function () {
+        $(this).dialog("close");
+        }
+        }
     });
 }
 
