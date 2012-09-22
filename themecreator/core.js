@@ -198,7 +198,7 @@ dialog = function (title, text) {
     */
     
 	
-		$( "#Dialog" ).dialog({
+		$( res ).dialog({
 			modal: true,
 			buttons: {
 				Ok: function() {
