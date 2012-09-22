@@ -23,9 +23,6 @@
     </head>
     
     <body>
-<div id="Dialog-Start">
-	<p>Start by importing a theme or creating a new one.</p>
-</div>
         <div class="page">
             <div id="Tabs">
                 <ul>
@@ -40,23 +37,24 @@
                     </li>
                 </ul>
                 <div id="Tabs-1">
-                    <button id="UseExisting">
+                    <h2>
                         Use an existing theme:
-                    </button>
+                    </h2>
+                    <br/>
                     <form action="javascript:void 0;" onsubmit="useTheme();">
-                        <textarea rows="15" cols="50" id="LoadTheme">
+                        <textarea rows="15" cols="75" id="LoadTheme">
                         </textarea>
                         <br/>
                         <input type="submit" value="Use" id="UseTheme">
-                    </form>
-                    <br/>
-                    <button id="CreateNew">
+                    </form> | <button id="CreateNew">
                         Or create a new mafia theme
                     </button>
                 </div>
                 <div id="Tabs-2">
                 </div>
                 <div id="Tabs-3">
+                <textarea rows="15" cols="100" id="Source">
+                </textarea>
                 </div>
             </div>
         </div>
