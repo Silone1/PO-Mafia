@@ -1,5 +1,5 @@
 themeImported = false;
-Theme = {};
+Theme = false;
 
 /* Utilities */
 (function () {
@@ -158,23 +158,24 @@ Theme = {};
         try {
             res = JSON.parse(text);
         } catch (e) {
-            dialog("JSON parse error", "Could not parse JSON. Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax.", "ui-state-error");
+            dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "{INFO} Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."], "error");
             return false;
         }
 
         Theme = res;
     }
 
-    useTheme = function (text) {
+    useTheme = function (none) {
         var textarea = $("#LoadTheme"),
             button = $("#UseTheme"),
             val = textarea.val();
-        if (text != undefined) {
-            val = text;
-        }
-
+            
+        if (none) {
+            Theme = {};
+        } else {
         if (!loadTheme(val)) {
             return; // Parsing Error.
+        }
         }
 
         textarea.fadeOut("slow");
@@ -183,14 +184,33 @@ Theme = {};
     }
 
     dialog = function (title, text, cssClass) {
-        $("#Dialog").html(text).addClass(cssClass).prop("title", title).dialog({
+    var x, res = "";
+    
+    if (!cssClass) {
+    cssClass = "";
+    }
+    
+    if (cssClass === "highlight") {
+        cssClass = "ui-state-highlight";
+    } else if (cssClass === "error") {
+        cssClass = "ui-state-error";
+    }
+    
+    for (x in text) {
+    res += "<p>"+text[x]+"</p>";
+    }
+    
+    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>");
+    res = res.replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
+    
+        $("#Dialog").html(res).addClass(cssClass).prop("title", title).dialog({
             modal: true,
             buttons: {
                 Ok: function () {
-                    $(this).dialog("close");
+                    $(this).dialog("close").removeClass(cssClass);
                 }
             }
-        }).removeClass(cssClass);
+        });
     }
 
 })();
@@ -208,7 +228,17 @@ $(document).ready(function () {
                     themeImported = false;
                 }
             }
+            if (ui.index === 1) { // Editing Panel
+                if (Theme === false) {
+                    dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."], "error");
+                    return;
+                }
+            }
             if (ui.index === 2) { // Source
+                if (Theme === false) {
+                    dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."], "error");
+                    return;
+                }
                 $("#Source").val(JSON.stringify(Theme));
             }
         }
