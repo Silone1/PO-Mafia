@@ -1,4 +1,5 @@
 themeImported = false;
+Theme = {};
 
 /* Utilities */
 (function () {
@@ -152,6 +153,18 @@ themeImported = false;
         configurable: true
     });
 
+    loadTheme = function (text) {
+        var res;
+        try {
+            res = JSON.parse(text);
+        } catch (e) {
+            dialog("JSON parse error", "Could not parse JSON. Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax.", "ui-state-error");
+            return false;
+        }
+
+        Theme = res;
+    }
+
     useTheme = function (text) {
         var textarea = $("#LoadTheme"),
             button = $("#UseTheme"),
@@ -168,6 +181,18 @@ themeImported = false;
         button.fadeOut("slow");
         themeImported = true;
     }
+
+    dialog = function (title, text, cssClass) {
+        $("#Dialog").html(text).addClass(cssClass).prop("title", title).dialog({
+            modal: true,
+            buttons: {
+                Ok: function () {
+                    $(this).dialog("close");
+                }
+            }
+        }).removeClass(cssClass);
+    }
+
 })();
 
 $(document).ready(function () {
@@ -184,22 +209,32 @@ $(document).ready(function () {
                 }
             }
             if (ui.index === 2) { // Source
-                $("#Source").val("{}");
+                $("#Source").val(JSON.stringify(Theme));
             }
         }
     });
 
     $("#Theme").accordion({
-			autoHeight: false,
-			navigation: true});
+        autoHeight: false,
+        navigation: true
+    });
 
-    CreateNew.button({icons: {primary: "ui-icon-plusthick"}});
+    CreateNew.button({
+        icons: {
+            primary: "ui-icon-plusthick"
+        }
+    });
     CreateNew.click(function () {
         useTheme("{}");
     });
 
-    $("#UseTheme").button({icons: {primary: "ui-icon-script", secondary: "ui-icon-pencil"}});
-    
+    $("#UseTheme").button({
+        icons: {
+            primary: "ui-icon-script",
+            secondary: "ui-icon-pencil"
+        }
+    });
+
 /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
 			modal: true
