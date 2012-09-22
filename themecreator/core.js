@@ -302,5 +302,3 @@ $(document).ready(function () {
         }
     });
 });
-
-});
