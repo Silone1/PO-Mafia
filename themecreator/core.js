@@ -187,7 +187,7 @@ Theme = false;
             height: 200,
             buttons: {
                 "Ok": function () {
-                    $(this).dialog("close");
+                    $("#Dialog").dialog("close");
                 }
             }
         });
@@ -252,6 +252,11 @@ $(document).ready(function () {
     });
     CreateNew.click(function () {
         Theme = {};
+        dialog("Importing Panel", ["Your theme was successfully imported."]);
+        setTimeout(function () {
+        $("#Dialog").dialog("close");
+        }, 750);
+        Tabs.tabs("select", 1); // Editing Panel
     });
 
     $("#UseTheme").button({
