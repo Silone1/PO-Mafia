@@ -187,11 +187,13 @@ dialog = function (title, text) {
         height: 200,
         resizable: false,
         title: title,
-        buttons: {
-            "Ok": function () {
+        buttons: [
+        {
+            "text": "Ok",
+            click: function () {
                 $(this).dialog("close");
             }
-        }
+        }]
     });
     
 $('div.ui-dialog-buttonset button.ui-button span.ui-button-text').each(function() {
