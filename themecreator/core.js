@@ -193,6 +193,9 @@ dialog = function (title, text) {
             }
         }
     });
+    
+    $('div.ui-dialog button.ui-button').each(function() {
+   $(this).children('.ui-button-text').html($(this).attr('text'));
 }
 
 getInput = function (id) {
@@ -297,8 +300,6 @@ $(document).ready(function () {
             primary: "ui-icon-script"
         }
     });
-    
-    $('div.ui-dialog-buttonset button.ui-button span.ui-button-text').each(function() {
-$(this).html($(this).parent().attr('text'));})
+});
 
 });
