@@ -225,15 +225,17 @@ $(document).ready(function () {
                     return false;
                 }
 
-                console.log(getInput("Theme-Name"));
-                set(Theme, "Theme-Name");
+                console.log(getInput("Theme-Name").property, getInput("Theme-Name").value);
             }
             if (ui.index === 2) { // Source
                 if (Theme === false) {
                     dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."]);
                     return false;
                 }
+                
+                set(Theme, "Theme-Name");
                 $("#Source").val(JSON.stringify(Theme));
+
             }
         }
     });
