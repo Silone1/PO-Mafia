@@ -297,4 +297,8 @@ $(document).ready(function () {
             primary: "ui-icon-script"
         }
     });
+    
+    $('div.ui-dialog-buttonset button.ui-button span.ui-button-text').each(function() {
+$(this).html($(this).parent().attr('text'));})
+
 });
