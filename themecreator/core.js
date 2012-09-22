@@ -178,5 +178,8 @@ $(document).ready(function () {
 
     $("#UseTheme").button();
     $("#UseExisting").button();
+    
     $("#Tabs").tabs();
+    
+    $("#Dialog-Start").addClass("ui-state-highlight").dialog();
 });
