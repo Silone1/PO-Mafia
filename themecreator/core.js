@@ -232,11 +232,15 @@ Theme = false;
         if (input.value.length < 2) {
             input.value = input.value[0];
         }
+        
         return input;
     }
         
     setThemeValues = function () {
         set(Theme, "Theme-Name");
+        set(Theme, "Theme-Author", Hooks.Array);
+        set(Theme, "Theme-Summary");
+
         set(Theme, "Theme-VillageCantLoseRoles", Hooks.Array);
     }
 
@@ -280,9 +284,11 @@ $(document).ready(function () {
     CreateNew.click(function () {
         Theme = {};
         dialog("Importing Panel", ["Your theme was successfully imported."]);
+        
         setTimeout(function () {
-        $("#Dialog").dialog("close");
-        }, 750);
+            $("#Dialog").dialog("close");
+        }, 2500);
+        
         Tabs.tabs("select", 1); // Editing Panel
     });
 
