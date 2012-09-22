@@ -184,19 +184,22 @@ Theme = false;
     }
 
     dialog = function (title, text) {
-    var x, res = "";
+    var x, res = "<b>";
     
     for (x in text) {
     res += "<p>"+text[x]+"</p>";
     }
     
-    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>");
-    res = res.replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
+    res += "</b>";
+    
+    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
     
         $("#Dialog").html(res).prop("title", title).dialog({
             modal: true,
+            width: 300,
+            height: 300,
             buttons: {
-                Ok: function () {
+                "Ok": function () {
                     $(this).dialog("close");
                 }
             }
