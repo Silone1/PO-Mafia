@@ -178,4 +178,5 @@ $(document).ready(function () {
 
     $("#UseTheme").button();
     $("#UseExisting").button();
+    $("#Tabs").tabs();
 });
