@@ -179,14 +179,16 @@ $(document).ready(function () {
         }
     });
 
-    $("#Theme").accordion();
+    $("#Theme").accordion({
+			autoHeight: false,
+			navigation: true});
 
     CreateNew.button({icons: {primary: "ui-icon-plusthick"}});
     CreateNew.click(function () {
         useTheme("{}");
     });
 
-    $("#UseTheme").button();
+    $("#UseTheme").button({icons: {primary: "ui-icon-script"}});
     
 /*$("#Dialog-Start").addClass("ui-state-highlight").dialog({
 			height: 140,
