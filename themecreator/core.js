@@ -181,15 +181,16 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    $("#Dialog").html(res).prop("title", title).dialog({
+    $("#Dialog").html(res).dialog({
         modal: true,
         width: 300,
         height: 200,
         resizable: false,
+        title: title,
         buttons: {
-        "Ok": function () {
-        $(this).dialog("close");
-        }
+            "Ok": function () {
+                $(this).dialog("close");
+            }
         }
     });
 }
