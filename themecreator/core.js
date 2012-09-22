@@ -264,7 +264,7 @@ $(document).ready(function () {
         }
     });
     CreateNew.click(function () {
-        useTheme("{}");
+        useTheme(true);
     });
 
     $("#UseTheme").button({
