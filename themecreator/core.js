@@ -205,7 +205,20 @@ Theme = false;
             }
         });
     }
+    
+    getInput = function (id) {
+        var prop = $("#"+id);
+        return {"property": prop.prop("name"), "value": prop.val()};
+    }
 
+    set = function (obj, id) {
+        var input = getInput(id);
+        if (!input.value) {
+        return;
+        }
+        
+        obj[input.property] = input.property;
+    }
 })();
 
 $(document).ready(function () {
@@ -226,6 +239,9 @@ $(document).ready(function () {
                     dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
                     return false;
                 }
+                
+                console.log(getInput("Theme-Name"));
+                set(Theme, "Theme-Name");
             }
             if (ui.index === 2) { // Source
                 if (Theme === false) {
