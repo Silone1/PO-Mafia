@@ -196,6 +196,7 @@ dialog = function (title, text) {
     
     $('div.ui-dialog button.ui-button').each(function() {
    $(this).children('.ui-button-text').html($(this).attr('text'));
+   });
 }
 
 getInput = function (id) {
