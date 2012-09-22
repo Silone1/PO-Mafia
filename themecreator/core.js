@@ -153,99 +153,97 @@
 
 Theme = false;
 
-    loadTheme = function (text) {
-        var res;
-        try {
-            res = JSON.parse(text);
-        } catch (e) {
-            dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "{INFO} Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."]);
-            return false;
-        }
-
-        Theme = res;
+loadTheme = function (text) {
+    var res;
+    try {
+        res = JSON.parse(text);
+    } catch (e) {
+        dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "{INFO} Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."]);
+        return false;
     }
 
-    useTheme = function () {
-        var val = $("#LoadTheme").val();
-        loadTheme(val);
+    Theme = res;
+}
+
+useTheme = function () {
+    var val = $("#LoadTheme").val();
+    loadTheme(val);
+}
+
+dialog = function (title, text) {
+    var x, res = "<b>";
+
+    for (x in text) {
+        res += "<p>" + text[x] + "</p>";
     }
 
-    dialog = function (title, text) {
-        var x, res = "<b>";
+    res += "</b>";
 
-        for (x in text) {
-            res += "<p>" + text[x] + "</p>";
-        }
+    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-        res += "</b>";
+    $("#Dialog").html(res).prop("title", title);
 
-        res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
-
-        $("#Dialog").html(res).prop("title", title);
-        
-        $("#Dialog").dialog({
-            modal: true,
-            width: 300,
-            height: 200,
-            buttons: [
-            {
-            "text": "OK",
-            "click": function () {
-                    $("#Dialog").dialog("close");
-                }
+    $("#Dialog").dialog({
+        modal: true,
+        width: 300,
+        height: 200,
+        buttons: [{
+            text: "Ok",
+            click: function () {
+                $(this).dialog("close");
             }
-            ]
-        });
-    }
+        }]
+    });
+}
 
-    getInput = function (id) {
-        var prop = $("#" + id);
-        return {
-            "property": prop.prop("name"),
-            "value": prop.val()
-        };
-    }
+getInput = function (id) {
+    var prop = $("#" + id);
+    return {
+        "property": prop.prop("name"),
+        "value": prop.val()
+    };
+}
 
-    set = function (obj, id, hook) {
-        var input = getInput(id);
-        
-        if (!input.value) {
-            if (obj.has(input.property)) {
-                delete obj[input.property];
-            }
-            return;
+set = function (obj, id, hook) {
+    var input = getInput(id);
+
+    if (!input.value) {
+        if (obj.has(input.property)) {
+            delete obj[input.property];
         }
+        return;
+    }
 
-        if (hook) {
-            input = hook(input);
-        }
-        
-        obj[input.property] = input.value;
+    if (hook) {
+        input = hook(input);
     }
-    
-    Hooks = {};
-    Hooks.Number = function (input) {
-        input.value = input.value * 1;
-        return input;
-    }
-    
-    Hooks.Array = function (input) {
-        input.value = input.value.split(", ");
-        
-        if (input.value.length < 2) {
-            input.value = input.value[0];
-        }
-        
-        return input;
-    }
-        
-    setThemeValues = function () {
-        set(Theme, "Theme-Name");
-        set(Theme, "Theme-Author", Hooks.Array);
-        set(Theme, "Theme-Summary");
 
-        set(Theme, "Theme-VillageCantLoseRoles", Hooks.Array);
+    obj[input.property] = input.value;
+}
+
+Hooks = {};
+Hooks.Number = function (input) {
+    input.value = input.value * 1;
+    return input;
+}
+
+Hooks.Array = function (input) {
+    input.value = input.value.split(", ");
+
+    if (input.value.length < 2) {
+        input.value = input.value[0];
     }
+
+    return input;
+}
+
+setThemeValues = function () {
+    set(Theme, "Theme-Name");
+    set(Theme, "Theme-Author", Hooks.Array);
+    set(Theme, "Theme-Summary");
+
+    set(Theme, "Theme-VillageCantLoseRoles", Hooks.Array);
+}
 
 $(document).ready(function () {
     var CreateNew = $("#CreateNew"),
@@ -266,7 +264,7 @@ $(document).ready(function () {
                     dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."]);
                     return false;
                 }
-                
+
                 setThemeValues();
                 $("#Source").val(JSON.stringify(Theme));
 
@@ -287,11 +285,11 @@ $(document).ready(function () {
     CreateNew.click(function () {
         Theme = {};
         dialog("Importing Panel", ["Your theme was successfully imported."]);
-        
+
         setTimeout(function () {
             $("#Dialog").dialog("close");
         }, 1500);
-        
+
         Tabs.tabs("select", 1); // Editing Panel
     });
 
