@@ -85,14 +85,6 @@ defineCoreProperty(Object.prototype, "extend", function (other) {
     return this;
 });
 
-defineCoreProperty(Object.prototype, "remove", function (name) {
-    if (!this.has(name)) {
-        return;
-    }
-
-    delete this[name];
-});
-
 defineCoreProperty(Object.prototype, "length", function () {
     return Object.keys(this).length;
 });
