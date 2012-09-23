@@ -312,6 +312,7 @@ getThemeValues = function () {
 }
 
 initalizeGlobals = function () {
+    /* Add buttons */
     addGlobalOption("Name", "Your theme's name");
     addGlobalOption("Author", "Your theme's author(s)");
     addGlobalOption("Border", "Your theme's border");
@@ -322,6 +323,10 @@ initalizeGlobals = function () {
     addGlobalOption("Draw Message", "DrawMsg", "Your theme's draw message");
 
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
+    
+    
+    /* Initalize Auto Completers */
+    initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
 }
 
 /* Document onload */
@@ -382,9 +387,6 @@ $(document).ready(function () {
         importTheme();
     });
 
-    /* Initalize Auto Completers */
-    initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
-    
     /* Initalize Editing */
     initalizeGlobals();
 });
