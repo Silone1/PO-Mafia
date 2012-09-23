@@ -256,7 +256,11 @@ Hooks = {
         return input;
     },
     ArrayToString: function (input) {
-        return input.join(", ");
+        if (Array.isArray(input) {
+            return input.join(", ");
+        } else {
+            return input;
+        }
     }
 }; 
 
