@@ -236,10 +236,6 @@ set = function (obj, id, hook) {
     if (arguments.length === 1) {
         id = obj;
         obj = Theme;
-    } else if (arguments.length === 2 && typeof id === "function") {
-        hook = id;
-        id = obj;
-        obj = Theme;
     }
     
     var input = getInput(id);
@@ -289,7 +285,7 @@ Hooks = {
 /* Tab: Global */
 setThemeValues = function () {
     set("Name");
-    set("Author", Hooks.Array);
+    set(Theme, "Author", Hooks.StringToArray);
     set("Summary");
     set("Border");
     
@@ -298,7 +294,7 @@ setThemeValues = function () {
     set("LynchMsg");
     set("DrawMsg");
 
-    set("VillageCantLoseRoles", Hooks.StringToArray);
+    set(Theme, "VillageCantLoseRoles", Hooks.StringToArray);
 }
 
 getThemeValues = function () {
