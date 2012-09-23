@@ -181,7 +181,20 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    obj.html(res).dialog("option", "title", title).dialog("open");
+    obj.html(res).dialog({
+        modal: true,
+        width: 300,
+        height: 220,
+        resizable: false/*,
+        buttons: [
+        {
+            "text": "Ok",
+            click: function () {
+                $(this).dialog("close");
+            }
+        }]*/
+    });
+    
     return obj;
 }
 
@@ -298,19 +311,4 @@ $(document).ready(function () {
             primary: "ui-icon-script"
         }
     });
-    
-        $("#Dialog").dialog({
-        modal: true,
-        autoOpen: false,
-        width: 300,
-        height: 200,
-        resizable: false/*,
-        buttons: [
-        {
-            "text": "Ok",
-            click: function () {
-                $(this).dialog("close");
-            }
-        }]*/
-    })
 });
