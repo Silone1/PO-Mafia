@@ -182,10 +182,10 @@ initAutoCompleter = function (id, tags, join) {
 
 labelHtml = function (text, icon) {
     if (!icon) {
-        icon = "pencil";
+        icon = "plus";
     }
 
-    return '<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;"><span class="ui-icon ui-icon-' + icon + '" style="float:left; margin:-2px 5px 0 0;"></span>' + text + '</p>';
+    return '<p class="button-span" style="font-size: 4;"><span class="ui-icon ui-icon-' + icon + '" style="float:left; margin:-2px 5px 0 0;"></span>' + text + '</p>';
 };
 
 label = function (id, text, icon) {
@@ -216,6 +216,16 @@ loadTheme = function (text) {
     Tabs.tabs("select", 1); // Editing
 };
 
+elimEmpty = function () {
+    var x, curr;
+    for (x in Theme) {
+        curr = Theme[x];
+        if (typeof curr === "object" && curr.length() === 0) {
+            delete Theme[x];
+        }
+    }
+};
+
 importTheme = function () {
     loadTheme($("#ThemeContent").val());
 };
@@ -236,17 +246,24 @@ set = function (obj, id, hook) {
     if (arguments.length === 1) {
         id = obj;
         obj = Theme;
+    } else if (arguments.length === 2 && typeof id !== "string") {
+        hook = id;
+        id = obj;
+        obj = Theme;
     }
 
     var input = getInput(id);
 
-    if (!input.value) {
+    if (!hasInput(id)) {
         eval("if (obj."+input.property+") { delete obj."+input.property+"; }");
         return;
     }
 
     if (hook) {
         input = hook(input);
+        if (input === false) {
+            return obj;
+        }
     }
 
     eval("obj."+input.property+" = "+input.value);
@@ -255,7 +272,13 @@ set = function (obj, id, hook) {
 /* Hooks*/
 Hooks = {
     StringToNumber: function (input) {
-        input.value = input.value * 1;
+        var val = input.value;
+        if (isNaN(val * 1)) {
+            return false;
+        }
+
+        input.value = val * 1;
+
         return input;
     },
     StringToArray: function (input) {
@@ -313,12 +336,12 @@ setGlobalOption = function (id, text, hook) {
 };
 
 globalLabel = function (text, icon) {
-    label("Global-List", text + ":", icon);
+    label("Globals-List", text + ":", icon);
 };
 
 setThemeValues = function () {
     set("Name");
-    set(Theme, "Author", Hooks.StringToArray);
+    set("Author", Hooks.StringToArray);
     set("Summary");
     set("Border");
 
@@ -326,20 +349,22 @@ setThemeValues = function () {
     set("KillUserMsg");
     set("LynchMsg");
     set("DrawMsg");
-    set(Theme, "MinPlayers", Hooks.StringToNumber);
+    set("MinPlayers", Hooks.StringToNumber);
 
-    set(Theme, "VillageCantLoseRoles", Hooks.String2Array);
+    set("VillageCantLoseRoles", Hooks.String2Array);
 
     if (!Theme.ticks && (hasInput("Ticks-Night") || hasInput("Ticks-Standby"))) {
         Theme.ticks = {};
-
-        if (hasInput("Ticks-Night")) {
-            set(Theme.ticks, "Ticks-Night", Hooks.StringToNumber);
-        }
-        if (hasInput("Ticks-Standby")) {
-            set(Theme.ticks, "Ticks-Standby", Hooks.StringToNumber);
-        }
     }
+
+    if (hasInput("Ticks-Night")) {
+        set("Ticks-Night", Hooks.StringToNumber);
+    }
+    if (hasInput("Ticks-Standby")) {
+        set("Ticks-Standby", Hooks.StringToNumber);
+    }
+
+    elimEmpty();
 };
 
 getThemeValues = function () {
@@ -385,7 +410,7 @@ initializeGlobals = function () {
 
     /* Initialize Auto Completer */
     initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game:"]);
-}
+};
 
 /* Document onload */
 $(document).ready(function () { /* Load from localStorage */
