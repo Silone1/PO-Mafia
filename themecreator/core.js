@@ -196,9 +196,9 @@ dialog = function (title, text) {
         }]
     });
     
-$('div.ui-dialog-buttonset button.ui-button span.ui-button-text').each(function() {
-$(this).html($(this).parent().attr('text'));})
-
+$('div.ui-dialog-buttonset button.ui-button ui-button-text').each(function() {
+$(this).html("<span class='ui-button-text'>"+$(this).parent().attr('text')+"</span>");
+});
 }
 
 getInput = function (id) {
