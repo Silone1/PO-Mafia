@@ -286,7 +286,7 @@ addGlobalOption = function (name, id, propName, tooltip) {
         propName = id.toLowerCase();
     }
 
-    $("#Globals-List").append("<li><b>" + name + "</b>: <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\" size='35'>");
+    $("#Globals-List").append("<li><b>" + name + "</b>: <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\" size='20'>");
 }
 
 setGlobalOption = function (id, text, hook) {
