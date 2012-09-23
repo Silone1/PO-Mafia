@@ -4,3 +4,8 @@
     width: 300px;
     margin: 15px;
 }
+
+.button-span {
+    font-weight: bold;
+    color: cornflowerblue;
+}

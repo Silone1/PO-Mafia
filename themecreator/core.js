@@ -135,11 +135,11 @@ dialog = function (title, text) {
         height: 220,
         resizable: false
     });
-}
+};
 
 initButton = function (id) {
     return $("#" + id).button();
-}
+};
 
 initSlider = function (id, callback) {
     return $("#Theme-" + id).addClass("css-slider").slider({
@@ -152,7 +152,7 @@ initSlider = function (id, callback) {
             $("#Theme-" + id + "-value").html("<br/>(" + ui.value / 100 + ")");
         }
     }).append("<br/><span id='#Theme-" + id + "-value'>(0.01)</span>");
-}
+};
 
 initAutoCompleter = function (id, tags, join) {
     if (!join) {
@@ -178,19 +178,19 @@ initAutoCompleter = function (id, tags, join) {
             return false;
         }
     });
-}
+};
 
-labelHtml = function (id, text, icon) {
+labelHtml = function (text, icon) {
     if (!icon) {
         icon = "pencil";
     }
 
     return '<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;"><span class="ui-icon ui-icon-' + icon + '" style="float:left; margin:-2px 5px 0 0;"></span>' + text + '</p>';
-}
+};
 
 label = function (id, text, icon) {
     $("#" + id).append(labelHtml(text, icon));
-}
+};
 
 /* End jQuery UI Stuff */
 
@@ -214,11 +214,11 @@ loadTheme = function (text) {
     }, 1500);
 
     Tabs.tabs("select", 1); // Editing
-}
+};
 
 importTheme = function () {
     loadTheme($("#ThemeContent").val());
-}
+};
 
 getInput = function (id) {
     var prop = $("#Theme-" + id);
@@ -226,7 +226,11 @@ getInput = function (id) {
         "property": prop.prop("name"),
         "value": prop.val()
     };
-}
+};
+
+hasInput = function (id) {
+    return !!getInput(id).value;
+};
 
 set = function (obj, id, hook) {
     if (arguments.length === 1) {
@@ -237,9 +241,7 @@ set = function (obj, id, hook) {
     var input = getInput(id);
 
     if (!input.value) {
-        if (obj.has(input.property)) {
-            delete obj[input.property];
-        }
+        eval("if (obj."+input.property+") { delete obj."+input.property+"; }");
         return;
     }
 
@@ -247,8 +249,8 @@ set = function (obj, id, hook) {
         input = hook(input);
     }
 
-    obj[input.property] = input.value;
-}
+    eval("obj."+input.property+" = "+input.value);
+};
 
 /* Hooks*/
 Hooks = {
@@ -298,8 +300,8 @@ addGlobalOption = function (name, id, propName, tooltip) {
         propName = id.toLowerCase();
     }
 
-    $("#Globals-List").append("<li><b>" + name + "</b>: <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\" size='20'>");
-}
+    $("#Globals-List").append("<li><span class='button-span'>" + name + ":</span> <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\" size='20'>");
+};
 
 setGlobalOption = function (id, text, hook) {
     if (text) {
@@ -308,7 +310,11 @@ setGlobalOption = function (id, text, hook) {
         }
         $("input[id=Theme-" + id + "]").val(text);
     }
-}
+};
+
+globalLabel = function (text, icon) {
+    label("Global-List", text + ":", icon);
+};
 
 setThemeValues = function () {
     set("Name");
@@ -320,9 +326,21 @@ setThemeValues = function () {
     set("KillUserMsg");
     set("LynchMsg");
     set("DrawMsg");
+    set(Theme, "MinPlayers", Hooks.StringToNumber);
 
     set(Theme, "VillageCantLoseRoles", Hooks.String2Array);
-}
+
+    if (!Theme.ticks && (hasInput("Ticks-Night") || hasInput("Ticks-Standby"))) {
+        Theme.ticks = {};
+
+        if (hasInput("Ticks-Night")) {
+            set(Theme.ticks, "Ticks-Night", Hooks.StringToNumber);
+        }
+        if (hasInput("Ticks-Standby")) {
+            set(Theme.ticks, "Ticks-Standby", Hooks.StringToNumber);
+        }
+    }
+};
 
 getThemeValues = function () {
     setGlobalOption("Name", Theme.name);
@@ -334,11 +352,20 @@ getThemeValues = function () {
     setGlobalOption("KillUserMsg", Theme.killusermsg);
     setGlobalOption("LynchMsg", Theme.lynchmsg);
     setGlobalOption("DrawMsg", Theme.drawmsg);
+    setGlobalOption("MinPlayers", Theme.minplayers);
 
     setGlobalOption("VillageCantLoseRoles", Theme.villageCantLoseRoles, Hooks.ArrayToString);
-}
 
-initalizeGlobals = function () { /* Add buttons */
+    if (Theme.has("ticks")) {
+        setGlobalOption("Ticks-Night", Theme.ticks.night);
+        setGlobalOption("Ticks-Standby", Theme.ticks.standby);
+    }
+
+};
+
+initializeGlobals = function () {
+
+    /* Add buttons */
     addGlobalOption("Name", "Your theme's name");
     addGlobalOption("Author", "Your theme's author(s)");
     addGlobalOption("Border", "Your theme's border");
@@ -347,11 +374,17 @@ initalizeGlobals = function () { /* Add buttons */
     addGlobalOption("Kill User Message", "KillUserMsg", "Your theme's kill message sent to the player who died");
     addGlobalOption("Lynch Message", "LynchMsg", "Your theme's lynch message");
     addGlobalOption("Draw Message", "DrawMsg", "Your theme's draw message");
+    addGlobalOption("Minimum Players", "MinPlayers", "Your theme's minimum player requirement");
 
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
 
-    /* Initalize Auto Completers */
-    initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
+    globalLabel("Ticks");
+
+    addGlobalOption("Night", "Ticks-Night", "ticks.night", "Your theme's night ticks");
+    addGlobalOption("Standby", "Ticks-Standby", "ticks.standby", "Your theme's standby ticks");
+
+    /* Initialize Auto Completer */
+    initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game:"]);
 }
 
 /* Document onload */
@@ -362,11 +395,11 @@ $(document).ready(function () { /* Load from localStorage */
         $("#ThemeContent").val(item);
     }
 
-    /* Initalize Tabs */
+    /* Initialize Tabs */
     var Tabs = $("#Tabs");
 
     Tabs.tabs({
-        "select": function (event, ui) {
+        select: function (event, ui) {
             if (ui.index === 0) { // Importing
                 if (Theme !== false) {
                     setThemeValues();
@@ -394,13 +427,13 @@ $(document).ready(function () { /* Load from localStorage */
         }
     });
 
-    /* Initalize Accordion */
+    /* Initialize Accordion */
     $("#Theme").accordion({
         autoHeight: false,
         collapsible: true
     });
 
-    /* Initalize Buttons */
+    /* Initialize Buttons */
     initButton("CreateNew");
     initButton("ImportTheme");
 
@@ -419,8 +452,8 @@ $(document).ready(function () { /* Load from localStorage */
         importTheme();
     });
 
-    /* Initalize Editing */
-    initalizeGlobals();
+    /* Initialize Editing */
+    initializeGlobals();
 });
 
 /* End Document onload */
