@@ -202,6 +202,19 @@ useTheme = function () {
     loadTheme(val);
 }
 
+addGlobalOption = function (name, id, prop_name, tooltip) {
+    $("#Globals-List").append("<li><b>"+name+"</b>: <input id=\"Theme-"+id+"\" name=\""+prop_name+"\" title=\""+tooltip+"\">");
+}
+
+setGlobalOption = function (id, text, hook) {
+    if (text) {
+        if (hook) {
+            text = hook(text);
+        }
+        $("input[id=Theme-"+id+"]").val(text);
+    }
+}
+
 getInput = function (id) {
     var prop = $("#Theme-" + id);
     return {
@@ -227,6 +240,31 @@ set = function (obj, id, hook) {
     obj[input.property] = input.value;
 }
 
+/* Hooks*/
+Hooks = {
+    StringToNumber: function (input) {
+        input.value = input.value * 1;
+        return input;
+    },
+    StringToArray: function (input) {
+        input.value = input.value.split(", ");
+
+        if (input.value.length < 2) {
+            input.value = input.value[0];
+        }
+
+        return input;
+    },
+    ArrayToString: function (input) {
+        return input.join(", ");
+    }
+}; 
+
+/* End Hooks */
+
+/* End Core JS */
+
+/* Tab: Global */
 setThemeValues = function () {
     set(Theme, "Name");
     set(Theme, "Author", Hooks.Array);
@@ -235,29 +273,22 @@ setThemeValues = function () {
     set(Theme, "KillMsg");
     set(Theme, "KillUserMsg");
 
-    set(Theme, "VillageCantLoseRoles", Hooks.Array);
+    set(Theme, "VillageCantLoseRoles", Hooks.StringToArray);
 }
 
-/* Hooks for set */
-Hooks = {
-    Number: function (input) {
-        input.value = input.value * 1;
-        return input;
-    },
-    Array: function (input) {
-        input.value = input.value.split(", ");
+getThemeValues = function () {
+    setGlobalOption("Name", Theme.name);
+    setGlobalOption("Author", Theme.author, Hooks.ArrayToString);
+    setGlobalOption("Summary", Theme.summary);
+    setGlobalOption("Border", Theme.border);
+    setGlobalOption("KillMsg", Theme.killmsg);
+    setGlobalOption("KillUserMsg", Theme.killusermsg);
+    setGlobalOption("VillageCantLoseRoles", Theme.villageCantLoseRoles, Hooks.ArrayToString);
+}
 
-        if (input.value.length < 2) {
-            input.value = input.value[0];
-        }
-
-        return input;
-    }
-}; 
-
-/* End Hooks for set */
-
-/* End Core JS */
+initalizeGlobals = function () {
+    addGlobalOption("Name", "Name", "name", "Your theme's name");
+}
 
 /* Document onload */
 $(document).ready(function () {
@@ -266,19 +297,24 @@ $(document).ready(function () {
     Tabs.tabs({
         "select": function (event, ui) {
             if (ui.index === 0) { // Importing
+                if (Theme !== false) {
+                    setThemeValues();
+                }
             }
             if (ui.index === 1) { // Editing
                 if (Theme === false) {
                     dialog("Editing", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
                     return false;
                 }
+                
+                getThemeValues();
             }
             if (ui.index === 2) { // Source
                 if (Theme === false) {
                     dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."]);
                     return false;
                 }
-
+                
                 setThemeValues();
                 $("#Source").val(JSON.stringify(Theme));
 
@@ -305,6 +341,8 @@ $(document).ready(function () {
 
         Tabs.tabs("select", 1); // Editing
     });
+    
+    initalizeGlobals();
 });
 
 /* End Document onload */
