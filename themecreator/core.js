@@ -197,8 +197,8 @@ dialog = function (title, text) {
     });
     
 $('div.ui-dialog-buttonset button.ui-button span.ui-button-text').each(function() {
-    $(this).html($(this).parent().attr('text'));
-});
+$(this).html($(this).parent().attr('text'));})
+
 }
 
 getInput = function (id) {
