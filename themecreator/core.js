@@ -162,8 +162,9 @@ initAutoCompleter = function (id, tags, join) {
         },
         select: function (event, ui) {
             var terms = this.value.split(join);
+            
             terms.pop();
-            terms.push(ui.item.value, "");
+            terms.push(ui.item.value);
 
             this.value = terms.join(join);
 
