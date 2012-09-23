@@ -256,7 +256,7 @@ Hooks = {
         return input;
     },
     ArrayToString: function (input) {
-        if (Array.isArray(input) {
+        if (Array.isArray(input)) {
             return input.join(", ");
         } else {
             return input;
