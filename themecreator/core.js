@@ -146,7 +146,7 @@ initSlider = function (id, callback) {
             callback(ui.value / 100);
             $("#Theme-"+id+"-value").html("<br/>("+ui.value / 100 +")");
         }
-    }).append("<br/><span id='#Theme-'"+id+"'-value'>(0.01)</span>");
+    }).append("<br/><span id='#Theme-"+id+"-value'>(0.01)</span>");
 }
 
 initAutoCompleter = function (id, tags, join) {
@@ -328,7 +328,7 @@ initalizeGlobals = function () {
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
     
     $("#Globals-List").append("<div id='Theme-EvadeChance'></div>");
-    initSlider("Theme-EvadeChance", function (val) {
+    initSlider("EvadeChance", function (val) {
     Theme["evadeChance"] = val;
     });
     
