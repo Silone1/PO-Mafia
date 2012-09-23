@@ -139,7 +139,7 @@ initButton = function (id) {
 }
 
 initSlider = function (id, callback) {
-    $("#" + id).slider({
+    $("#Theme-" + id).slider({
         min: 1,
         max: 100,
         value: 1,
@@ -153,7 +153,7 @@ initAutoCompleter = function (id, tags, join) {
     if (!join) {
         join = " ";
     }
-    $("#" + id).autocomplete({
+    $("#Theme-" + id).autocomplete({
         minLength: 0,
         source: function (request, response) {
             response($.ui.autocomplete.filter(tags, request.term.split(/,\s*/).pop()));
