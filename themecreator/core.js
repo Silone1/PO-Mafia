@@ -137,7 +137,7 @@ initButton = function (id) {
 }
 
 initSlider = function (id, callback) {
-    return $("#Theme-" + id).slider({
+    return $("#Theme-" + id).addClass("css-slider").slider({
         range: "min",
         min: 1,
         max: 100,
@@ -173,6 +173,18 @@ initAutoCompleter = function (id, tags, join) {
             return false;
         }
     });
+}
+
+labelHtml = function (id, text, icon) {
+    if (!icon) {
+        icon = "pencil";
+    }
+    
+    return '<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;"><span class="ui-icon ui-icon-'+icon+'" style="float:left; margin:-2px 5px 0 0;"></span>'+text+'</p>';
+}
+
+label = function (id, text, icon) {
+    $("#"+id).append(labelHtml(text, icon));
 }
 
 /* End jQuery UI Stuff */
@@ -326,11 +338,6 @@ initalizeGlobals = function () {
     addGlobalOption("Draw Message", "DrawMsg", "Your theme's draw message");
 
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
-    
-    $("#Globals-List").append("<div id='Theme-EvadeChance'></div>");
-    initSlider("EvadeChance", function (val) {
-    Theme["evadeChance"] = val;
-    });
     
     /* Initalize Auto Completers */
     initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
