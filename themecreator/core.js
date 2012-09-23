@@ -116,6 +116,11 @@ dialog = function (title, text) {
     var x, res = "<label><b>",
         obj = $("#Dialog");
 
+    
+    if (typeof text === "string") {
+        text = [text];
+    }
+    
     for (x in text) {
         res += "<p>" + text[x] + "</p>";
     }
