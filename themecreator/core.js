@@ -170,9 +170,13 @@ useTheme = function () {
     loadTheme(val);
 }
 
-dialog = function (title, text) {
-    var x, res = "<b>";
+dialog = function (title, text, id, buttons) {
+    var x, res = "<b>", obj = $("#Dialog");
 
+    if (id) {
+    obj = $("#"+id);
+    }
+    
     for (x in text) {
         res += "<p>" + text[x] + "</p>";
     }
@@ -181,19 +185,23 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    $("#Dialog").html(res).dialog({
-        modal: true,
-        width: 300,
-        height: 200,
-        resizable: false,
-        title: title/*,
-        buttons: [
-        {
-            "text": "Ok",
-            click: function () {
-                $(this).dialog("close");
-            }
-        }]*/
+    obj.html(res).dialog("open").dialog("option", "title", title);
+    
+    if (buttons) {
+    obj.dialog("option", "buttons", buttons);
+    }
+    
+    return obj;
+}
+
+initSlider = function (id, callback) {
+    $("#" + id).slider({
+        min: 1,
+        max: 100
+        value: 1,
+        slide: function (event, ui) {
+            callback(ui.value / 100);
+        }
     });
 }
 
@@ -299,4 +307,19 @@ $(document).ready(function () {
             primary: "ui-icon-script"
         }
     });
+    
+        $("#Dialog").dialog({
+        modal: true,
+        autoOpen: false,
+        width: 300,
+        height: 200,
+        resizable: false/*,
+        buttons: [
+        {
+            "text": "Ok",
+            click: function () {
+                $(this).dialog("close");
+            }
+        }]*/
+    })
 });
