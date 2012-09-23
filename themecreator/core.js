@@ -328,7 +328,6 @@ $(document).ready(function () {
 
     $("#Theme").accordion({
         autoHeight: false,
-        navigation: true,
         collapsible: true
     });
 
