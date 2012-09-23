@@ -170,12 +170,8 @@ useTheme = function () {
     loadTheme(val);
 }
 
-dialog = function (title, text, id, buttons) {
+dialog = function (title, text) {
     var x, res = "<b>", obj = $("#Dialog");
-
-    if (id) {
-    obj = $("#"+id);
-    }
     
     for (x in text) {
         res += "<p>" + text[x] + "</p>";
@@ -186,11 +182,6 @@ dialog = function (title, text, id, buttons) {
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
     obj.html(res).dialog("open").dialog("option", "title", title);
-    
-    if (buttons) {
-    obj.dialog("option", "buttons", buttons);
-    }
-    
     return obj;
 }
 
