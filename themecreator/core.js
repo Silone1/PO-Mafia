@@ -419,4 +419,4 @@ $(window).unload(function () {
     if (Theme !== false) {
         localStorage.setItem("Theme", JSON.stringify(Theme));
     }
-})l
+});
