@@ -185,7 +185,10 @@ dialog = function (title, text) {
         modal: true,
         width: 300,
         height: 220,
-        resizable: false/*,
+        resizable: false,
+        title: title
+        
+        /*,
         buttons: [
         {
             "text": "Ok",
