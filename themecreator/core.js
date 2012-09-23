@@ -326,6 +326,8 @@ initalizeGlobals = function () {
 
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
     
+    $("#Globals-List").append("<input id='Theme-EvadeChance'>");
+    initSlider("Theme-EvadeChance");
     
     /* Initalize Auto Completers */
     initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
