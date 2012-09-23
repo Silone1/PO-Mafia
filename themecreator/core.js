@@ -202,7 +202,7 @@ loadTheme = function (text) {
     try {
         res = JSON.parse(text);
     } catch (e) {
-        dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "{INFO} Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."]);
+        dialog("JSON parse error", ["{ALERT} Could not parse JSON.", "Please use <a href='http://jsonlint.com'>JSONLint</a> to check your syntax."]);
         return false;
     }
 
@@ -370,11 +370,12 @@ $(document).ready(function () { /* Load from localStorage */
             if (ui.index === 0) { // Importing
                 if (Theme !== false) {
                     setThemeValues();
+                    $("#ThemeContent").val(JSON.stringify(Theme));
                 }
             }
             if (ui.index === 1) { // Editing
                 if (Theme === false) {
-                    dialog("Editing", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
+                    dialog("Editing", "{ALERT} Click on 'Create New' or import an existing theme to edit it.");
                     return false;
                 }
 
@@ -382,7 +383,7 @@ $(document).ready(function () { /* Load from localStorage */
             }
             if (ui.index === 2) { // Source
                 if (Theme === false) {
-                    dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."]);
+                    dialog("Source", "{ALERT} Click on 'Create New' or import an existing theme to get the source.");
                     return false;
                 }
 
