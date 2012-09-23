@@ -403,6 +403,10 @@ $(document).ready(function () {
 
     /* Initalize Editing */
     initalizeGlobals();
+    
+    
+    /* jQuery Transform */
+    $("input").jqTransform();
 });
 
 /* End Document onload */
