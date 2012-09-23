@@ -1,4 +1,4 @@
-/* Utilities */
+﻿/* Utilities */
 defineCoreProperty = function (core, prop, func) {
     Object.defineProperty(core, prop, {
         "value": func,
@@ -157,6 +157,30 @@ initSlider = function (id, callback) {
     });
 }
 
+initAutoCompleter = function (id, tags, join) {
+    if (!join) {
+        join = " ";
+    }
+    $("#" + id).autocomplete({
+        minLength: 0,
+        source: function (request, response) {
+            response($.ui.autocomplete.filter(tags, request.term.split(/,\s*/).pop()));
+        },
+        focus: function () {
+            return false;
+        },
+        select: function (event, ui) {
+            var terms = this.value.split(/,\s*/);
+            terms.pop();
+            terms.push(ui.item.value, "");
+
+            this.value = terms.join(join);
+
+            return false;
+        }
+    });
+}
+
 /* End jQuery UI Stuff */
 
 /* Core JS */
@@ -174,31 +198,8 @@ loadTheme = function (text) {
     Theme = res;
 }
 
-useTheme = function () {
-    var val = $("#LoadTheme").val();
-    loadTheme(val);
-}
-
-addGlobalOption = function (name, id, propName, tooltip) {
-    if (arguments.length === 2) {
-        tooltip = id;
-        id = name;
-        propName = id.toLowerCase();
-    } else if (arguments.length === 3) {
-        tooltip = propName;
-        propName = id.toLowerCase();
-    }
-
-    $("#Globals-List").append("<li><b>" + name + "</b>: <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\">");
-}
-
-setGlobalOption = function (id, text, hook) {
-    if (text) {
-        if (hook) {
-            text = hook(text);
-        }
-        $("input[id=Theme-" + id + "]").val(text);
-    }
+importTheme = function () {
+    loadTheme($("#ThemeContent").val());
 }
 
 getInput = function (id) {
@@ -269,6 +270,28 @@ Hooks = {
 /* End Core JS */
 
 /* Tab: Global */
+addGlobalOption = function (name, id, propName, tooltip) {
+    if (arguments.length === 2) {
+        tooltip = id;
+        id = name;
+        propName = id.toLowerCase();
+    } else if (arguments.length === 3) {
+        tooltip = propName;
+        propName = id.toLowerCase();
+    }
+
+    $("#Globals-List").append("<li><b>" + name + "</b>: <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\" size='35'>");
+}
+
+setGlobalOption = function (id, text, hook) {
+    if (text) {
+        if (hook) {
+            text = hook(text);
+        }
+        $("input[id=Theme-" + id + "]").val(text);
+    }
+}
+
 setThemeValues = function () {
     set("Name");
     set(Theme, "Author", Hooks.StringToArray);
@@ -312,6 +335,7 @@ initalizeGlobals = function () {
 
 /* Document onload */
 $(document).ready(function () {
+    /* Initalize Tabs */
     var Tabs = $("#Tabs");
 
     Tabs.tabs({
@@ -342,13 +366,15 @@ $(document).ready(function () {
         }
     });
 
+    /* Initalize Accordion */
     $("#Theme").accordion({
         autoHeight: false,
         collapsible: true
     });
 
+    /* Initalize Buttons */
     initButton("CreateNew");
-    initButton("UseTheme");
+    initButton("ImportTheme");
 
     $("#CreateNew").click(function () {
         Theme = {};
@@ -360,7 +386,15 @@ $(document).ready(function () {
 
         Tabs.tabs("select", 1); // Editing
     });
+    
+    $("#ImportTheme").click(function () {
+        importTheme();
+    });
 
+    /* Initalize Auto Completers */
+    initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
+    
+    /* Initalize Editing */
     initalizeGlobals();
 });
 
