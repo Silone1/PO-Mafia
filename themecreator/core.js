@@ -100,19 +100,6 @@
         configurable: true
     });
 
-    Object.defineProperty(Object.prototype, "first", {
-        "value": function () {
-            var x;
-            for (x in this) {
-                return this[x]; // Grab the first property
-            }
-        },
-
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
-
     Object.defineProperty(Object.prototype, "length", {
         "value": function () {
             return Object.keys(this).length;
@@ -154,6 +141,7 @@
 /* End Utilities */
 
 /* jQuery UI Stuff */
+
 dialog = function (title, text) {
     var x, res = "<label><b>",
         obj = $("#Dialog");
@@ -190,7 +178,9 @@ initSlider = function (id, callback) {
             callback(ui.value / 100);
         }
     });
-} /* End jQuery UI Stuff */
+} 
+
+/* End jQuery UI Stuff */
 
 /* Core JS */
 Theme = false;
@@ -263,7 +253,9 @@ Hooks = {
 
         return input;
     }
-}; /* End Hooks for set */
+}; 
+
+/* End Hooks for set */
 
 /* End Core JS */
 
@@ -273,11 +265,11 @@ $(document).ready(function () {
 
     Tabs.tabs({
         "select": function (event, ui) {
-            if (ui.index === 0) { // Importing Panel
+            if (ui.index === 0) { // Importing
             }
-            if (ui.index === 1) { // Editing Panel
+            if (ui.index === 1) { // Editing
                 if (Theme === false) {
-                    dialog("Editing Panel", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
+                    dialog("Editing", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
                     return false;
                 }
             }
@@ -305,13 +297,13 @@ $(document).ready(function () {
 
     $("#CreateNew").click(function () {
         Theme = {};
-        dialog("Importing Panel", ["Your theme was successfully imported."]);
+        dialog("Importing", ["Successfully created a new theme."]);
 
         setTimeout(function () {
             $("#Dialog").dialog("close");
         }, 1500);
 
-        Tabs.tabs("select", 1); // Editing Panel
+        Tabs.tabs("select", 1); // Editing
     });
 });
 
