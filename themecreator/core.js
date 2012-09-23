@@ -124,22 +124,20 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    obj.html(res).dialog("option", "title", title).dialog({
+    return obj.html(res).dialog("option", "title", title).dialog({
         modal: true,
         width: 300,
         height: 220,
         resizable: false
     });
-
-    return obj;
 }
 
 initButton = function (id) {
-    $("#" + id).button();
+    return $("#" + id).button();
 }
 
 initSlider = function (id, callback) {
-    $("#Theme-" + id).slider({
+    return $("#Theme-" + id).slider({
         min: 1,
         max: 100,
         value: 1,
@@ -153,7 +151,8 @@ initAutoCompleter = function (id, tags, join) {
     if (!join) {
         join = " ";
     }
-    $("#Theme-" + id).autocomplete({
+    
+    return $("#Theme-" + id).autocomplete({
         minLength: 0,
         source: function (request, response) {
             response($.ui.autocomplete.filter(tags, request.term.split(/,\s*/).pop()));
@@ -162,7 +161,7 @@ initAutoCompleter = function (id, tags, join) {
             return false;
         },
         select: function (event, ui) {
-            var terms = this.value.split(/,\s*/);
+            var terms = this.value.split(join);
             terms.pop();
             terms.push(ui.item.value, "");
 
