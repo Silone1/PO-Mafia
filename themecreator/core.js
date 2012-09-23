@@ -1,142 +1,120 @@
 /* Utilities */
-(function () {
-    Object.defineProperty(String.prototype, "isEmpty", {
-        "value": function () {
-            var mess = this;
-            return mess == "" || mess.trim() == "";
-        },
+defineCoreProperty = function (core, prop, func) {
+    Object.defineProperty(core, prop, {
+        "value": func,
 
         writable: true,
         enumerable: false,
         configurable: true
     });
+}
 
-    Object.defineProperty(String.prototype, "contains", {
-        "value": function (string) {
-            var str = this;
-            return str.indexOf(string) > -1;
-        },
+defineCoreProperty(String.prototype, "isEmpty", function () {
+    var mess = this;
+    return mess == "" || mess.trim() == "";
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(String.prototype, "contains", function (string) {
+    var str = this;
+    return str.indexOf(string) > -1;
+});
 
-    Object.defineProperty(String.prototype, "format", {
-        "value": function () {
-            var str = this,
-                exp, i, args = arguments.length,
-                icontainer = 0;
-            for (i = 0; i < args; i++) {
-                icontainer++;
-                exp = new RegExp("%" + icontainer, "");
-                str = str.replace(exp, arguments[i]);
-            }
-            return str;
-        },
+defineCoreProperty(String.prototype, "has", function (string) {
+    return this.contains(string);
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(String.prototype, "format", function () {
+    var str = this,
+        exp, i, args = arguments.length,
+        icontainer = 0;
+    for (i = 0; i < args; i++) {
+        icontainer++;
+        exp = new RegExp("%" + icontainer, "");
+        str = str.replace(exp, arguments[i]);
+    }
+    return str;
+});
 
-    Object.defineProperty(Boolean.prototype, "isEmpty", {
-        "value": function () {
-            return this === false;
-        },
+defineCoreProperty(String.prototype, "fontsize", function (size) {
+    var str = this;
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+    return "<font size='" + size + "'>" + str + "</font>";
+});
 
-    Object.defineProperty(Number.prototype, "isEmpty", {
-        "value": function () {
-            return isNaN(this) || this === 0;
-        },
+defineCoreProperty(Boolean.prototype, "isEmpty", function () {
+    return this === false;
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(Number.prototype, "isEmpty", function () {
+    return !isFinite(this) || this === 0;
+});
 
-    Object.defineProperty(Object.prototype, "isEmpty", {
-        "value": function () {
-            return this.length() === 0;
-        },
+defineCoreProperty(Number.prototype, "positive", function () {
+    return !this.isEmpty();
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(Object.prototype, "isEmpty", function () {
+    return this.length() === 0;
+});
 
-    Object.defineProperty(Object.prototype, "keys", {
-        "value": function () {
-            return Object.keys(this);
-        },
+defineCoreProperty(Object.prototype, "keys", function () {
+    return Object.keys(this);
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(Object.prototype, "has", function (prop) {
+    return typeof this[prop] !== "undefined";
+});
 
-    Object.defineProperty(Object.prototype, "has", {
-        "value": function (prop) {
-            return typeof this[prop] !== "undefined";
-        },
+defineCoreProperty(Object.prototype, "contains", function (prop) {
+    return this.has(prop);
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(Object.prototype, "insert", function (name, val) {
+    this[name] = val;
+});
 
-    Object.defineProperty(Object.prototype, "insert", {
-        "value": function (name, val) {
-            this[name] = val;
-        },
+defineCoreProperty(Object.prototype, "extend", function (other) {
+    var x;
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+    if (typeof other === "object" && !Array.isArray(other) && other !== null) {
+        for (x in other) {
+            this[x] = other[x];
+        }
+    }
 
-    Object.defineProperty(Object.prototype, "length", {
-        "value": function () {
-            return Object.keys(this).length;
-        },
+    return this;
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(Object.prototype, "remove", function (name) {
+    if (!this.has(name)) {
+        return;
+    }
 
-    Object.defineProperty(Array.prototype, "has", {
-        "value": function (prop) {
-            var x;
-            for (x in this) {
-                if (this[x] == prop) {
-                    return true;
-                }
-            }
+    delete this[name];
+});
 
-            return false;
-        },
+defineCoreProperty(Object.prototype, "length", function () {
+    return Object.keys(this).length;
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
+defineCoreProperty(Array.prototype, "has", function (prop) {
+    var x;
+    for (x in this) {
+        if (this[x] == prop) {
+            return true;
+        }
+    }
 
-    Object.defineProperty(Array.prototype, "isEmpty", {
-        "value": function () {
-            return this.length === 0;
-        },
+    return false;
+});
 
-        writable: true,
-        enumerable: false,
-        configurable: true
-    });
-})();
+defineCoreProperty(Array.prototype, "isEmpty", function () {
+    return this.length === 0;
+});
+
+defineCoreProperty(Array.prototype, "contains", function (prop) {
+    return this.has(prop);
+});
 
 /* End Utilities */
 
@@ -154,12 +132,11 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    obj.html(res).dialog({
+    obj.html(res).dialog("option", "title", title).dialog({
         modal: true,
         width: 300,
         height: 220,
-        resizable: false,
-        title: title
+        resizable: false
     });
 
     return obj;
@@ -178,7 +155,7 @@ initSlider = function (id, callback) {
             callback(ui.value / 100);
         }
     });
-} 
+}
 
 /* End jQuery UI Stuff */
 
@@ -211,8 +188,8 @@ addGlobalOption = function (name, id, propName, tooltip) {
         tooltip = propName;
         propName = id.toLowerCase();
     }
-    
-    $("#Globals-List").append("<li><b>"+name+"</b>: <input id=\"Theme-"+id+"\" name=\""+propName+"\" title=\""+tooltip+"\">");
+
+    $("#Globals-List").append("<li><b>" + name + "</b>: <input id=\"Theme-" + id + "\" name=\"" + propName + "\" title=\"" + tooltip + "\">");
 }
 
 setGlobalOption = function (id, text, hook) {
@@ -220,7 +197,7 @@ setGlobalOption = function (id, text, hook) {
         if (hook) {
             text = hook(text);
         }
-        $("input[id=Theme-"+id+"]").val(text);
+        $("input[id=Theme-" + id + "]").val(text);
     }
 }
 
@@ -237,7 +214,7 @@ set = function (obj, id, hook) {
         id = obj;
         obj = Theme;
     }
-    
+
     var input = getInput(id);
 
     if (!input.value) {
@@ -285,7 +262,7 @@ Hooks = {
             return input;
         }
     }
-}; 
+};
 
 /* End Hooks */
 
@@ -297,7 +274,7 @@ setThemeValues = function () {
     set(Theme, "Author", Hooks.StringToArray);
     set("Summary");
     set("Border");
-    
+
     set("KillMsg");
     set("KillUserMsg");
     set("LynchMsg");
@@ -311,12 +288,12 @@ getThemeValues = function () {
     setGlobalOption("Author", Theme.author, Hooks.ArrayToString);
     setGlobalOption("Summary", Theme.summary);
     setGlobalOption("Border", Theme.border);
-    
+
     setGlobalOption("KillMsg", Theme.killmsg);
     setGlobalOption("KillUserMsg", Theme.killusermsg);
     setGlobalOption("LynchMsg", Theme.lynchmsg);
     setGlobalOption("DrawMsg", Theme.drawmsg);
-    
+
     setGlobalOption("VillageCantLoseRoles", Theme.villageCantLoseRoles, Hooks.ArrayToString);
 }
 
@@ -324,12 +301,12 @@ initalizeGlobals = function () {
     addGlobalOption("Name", "Your theme's name");
     addGlobalOption("Author", "Your theme's author(s)");
     addGlobalOption("Border", "Your theme's border");
-    
+
     addGlobalOption("Kill Message", "KillMsg", "Your theme's kill message");
     addGlobalOption("Kill User Message", "KillUserMsg", "Your theme's kill message sent to the player who died");
     addGlobalOption("Lynch Message", "LynchMsg", "Your theme's lynch message");
     addGlobalOption("Draw Message", "DrawMsg", "Your theme's draw message");
-    
+
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
 }
 
@@ -349,7 +326,7 @@ $(document).ready(function () {
                     dialog("Editing", ["{ALERT} Click on 'Create New' or import an existing theme to edit it."]);
                     return false;
                 }
-                
+
                 getThemeValues();
             }
             if (ui.index === 2) { // Source
@@ -357,7 +334,7 @@ $(document).ready(function () {
                     dialog("Source", ["{ALERT} Click on 'Create New' or import an existing theme to get the source."]);
                     return false;
                 }
-                
+
                 setThemeValues();
                 $("#Source").val(JSON.stringify(Theme));
 
@@ -383,7 +360,7 @@ $(document).ready(function () {
 
         Tabs.tabs("select", 1); // Editing
     });
-    
+
     initalizeGlobals();
 });
 
