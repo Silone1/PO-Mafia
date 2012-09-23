@@ -186,19 +186,15 @@ dialog = function (title, text) {
         width: 300,
         height: 200,
         resizable: false,
-        title: title,
+        title: title/*,
         buttons: [
         {
             "text": "Ok",
             click: function () {
                 $(this).dialog("close");
             }
-        }]
+        }]*/
     });
-    
-$('div.ui-dialog-buttonset button.ui-button ui-button-text').each(function() {
-$(this).html("<span class='ui-button-text'>"+$(this).parent().attr('text')+"</span>");
-});
 }
 
 getInput = function (id) {
