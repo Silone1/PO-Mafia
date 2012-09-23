@@ -269,6 +269,15 @@ Hooks = {
 
         return input;
     },
+    String2Array: function (input) { // For array only properties 
+        input.value = input.value.split(", ");
+
+        if (input.value.length < 2) {
+            input.value = input.value[0];
+        }
+
+        return input;
+    },
     ArrayToString: function (input) {
         if (Array.isArray(input)) {
             return input.join(", ");
@@ -294,7 +303,7 @@ setThemeValues = function () {
     set("LynchMsg");
     set("DrawMsg");
 
-    set(Theme, "VillageCantLoseRoles", Hooks.StringToArray);
+    set(Theme, "VillageCantLoseRoles", Hooks.String2Array);
 }
 
 getThemeValues = function () {
