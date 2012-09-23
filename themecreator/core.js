@@ -181,7 +181,7 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    obj.html(res).dialog("open").dialog("option", "title", title);
+    obj.html(res).dialog("option", "title", title).dialog("open");
     return obj;
 }
 
