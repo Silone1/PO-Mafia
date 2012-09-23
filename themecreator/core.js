@@ -144,16 +144,16 @@ initSlider = function (id, callback) {
         value: 1,
         slide: function (event, ui) {
             callback(ui.value / 100);
-            $("#Theme-"+id+"-value").html("<br/>("+ui.value / 100 +")");
+            $("#Theme-" + id + "-value").html("<br/>(" + ui.value / 100 + ")");
         }
-    }).append("<br/><span id='#Theme-"+id+"-value'>(0.01)</span>");
+    }).append("<br/><span id='#Theme-" + id + "-value'>(0.01)</span>");
 }
 
 initAutoCompleter = function (id, tags, join) {
     if (!join) {
         join = " ";
     }
-    
+
     return $("#Theme-" + id).autocomplete({
         minLength: 0,
         source: function (request, response) {
@@ -164,7 +164,7 @@ initAutoCompleter = function (id, tags, join) {
         },
         select: function (event, ui) {
             var terms = this.value.split(join);
-            
+
             terms.pop();
             terms.push(ui.item.value);
 
@@ -179,12 +179,12 @@ labelHtml = function (id, text, icon) {
     if (!icon) {
         icon = "pencil";
     }
-    
-    return '<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;"><span class="ui-icon ui-icon-'+icon+'" style="float:left; margin:-2px 5px 0 0;"></span>'+text+'</p>';
+
+    return '<p class="ui-state-default ui-corner-all ui-helper-clearfix" style="padding:4px;"><span class="ui-icon ui-icon-' + icon + '" style="float:left; margin:-2px 5px 0 0;"></span>' + text + '</p>';
 }
 
 label = function (id, text, icon) {
-    $("#"+id).append(labelHtml(text, icon));
+    $("#" + id).append(labelHtml(text, icon));
 }
 
 /* End jQuery UI Stuff */
@@ -202,6 +202,13 @@ loadTheme = function (text) {
     }
 
     Theme = res;
+
+    dialog("Importing", "Your theme was successfully imported.");
+    setTimeout(function () {
+        $("#Dialog").dialog("close");
+    }, 1500);
+
+    Tabs.tabs("select", 1); // Editing
 }
 
 importTheme = function () {
@@ -326,8 +333,7 @@ getThemeValues = function () {
     setGlobalOption("VillageCantLoseRoles", Theme.villageCantLoseRoles, Hooks.ArrayToString);
 }
 
-initalizeGlobals = function () {
-    /* Add buttons */
+initalizeGlobals = function () { /* Add buttons */
     addGlobalOption("Name", "Your theme's name");
     addGlobalOption("Author", "Your theme's author(s)");
     addGlobalOption("Border", "Your theme's border");
@@ -338,20 +344,19 @@ initalizeGlobals = function () {
     addGlobalOption("Draw Message", "DrawMsg", "Your theme's draw message");
 
     addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
-    
+
     /* Initalize Auto Completers */
     initAutoCompleter("KillMsg", ["~Player~", "~Role~", "±Game"]);
 }
 
 /* Document onload */
-$(document).ready(function () {
-    /* Load from localStorage */
+$(document).ready(function () { /* Load from localStorage */
     var item = localStorage.getItem("Theme");
-    
+
     if (item) {
         $("#ThemeContent").val(item);
     }
-    
+
     /* Initalize Tabs */
     var Tabs = $("#Tabs");
 
@@ -403,7 +408,7 @@ $(document).ready(function () {
 
         Tabs.tabs("select", 1); // Editing
     });
-    
+
     $("#ImportTheme").click(function () {
         importTheme();
     });
