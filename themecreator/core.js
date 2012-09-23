@@ -138,14 +138,15 @@ initButton = function (id) {
 
 initSlider = function (id, callback) {
     return $("#Theme-" + id).slider({
+        range: "min",
         min: 1,
         max: 100,
         value: 1,
         slide: function (event, ui) {
             callback(ui.value / 100);
-            $("#Theme-"+id+"-slider").html("("+ui.value / 100 +")");
+            $("#Theme-"+id+"-value").html("<br/>("+ui.value / 100 +")");
         }
-    }).append("<span id='#Theme-'"+id+"'-slider'>(0.01)</span>");
+    }).append("<br/><span id='#Theme-'"+id+"'-value'>(0.01)</span>");
 }
 
 initAutoCompleter = function (id, tags, join) {
