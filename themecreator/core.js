@@ -171,13 +171,13 @@ useTheme = function () {
 }
 
 dialog = function (title, text) {
-    var x, res = "<b>", obj = $("#Dialog");
+    var x, res = "<label><b>", obj = $("#Dialog");
     
     for (x in text) {
         res += "<p>" + text[x] + "</p>";
     }
 
-    res += "</b>";
+    res += "</b></label>";
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
@@ -210,7 +210,7 @@ initSlider = function (id, callback) {
 }
 
 getInput = function (id) {
-    var prop = $("#" + id);
+    var prop = $("#Theme-" + id);
     return {
         "property": prop.prop("name"),
         "value": prop.val()
@@ -251,11 +251,14 @@ Hooks.Array = function (input) {
 }
 
 setThemeValues = function () {
-    set(Theme, "Theme-Name");
-    set(Theme, "Theme-Author", Hooks.Array);
-    set(Theme, "Theme-Summary");
+    set(Theme, "Name");
+    set(Theme, "Author", Hooks.Array);
+    set(Theme, "Summary");
+    set(Theme, "Border");
+    set(Theme, "KillMsg");
+    set(Theme, "KillUserMsg");
 
-    set(Theme, "Theme-VillageCantLoseRoles", Hooks.Array);
+    set(Theme, "VillageCantLoseRoles", Hooks.Array);
 }
 
 $(document).ready(function () {
@@ -287,7 +290,8 @@ $(document).ready(function () {
 
     $("#Theme").accordion({
         autoHeight: false,
-        navigation: true
+        navigation: true,
+        collapsible: true
     });
 
     CreateNew.button({
