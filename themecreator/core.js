@@ -124,12 +124,12 @@ dialog = function (title, text) {
 
     res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
 
-    return obj.html(res).dialog({
+    return obj.html(res).attr("title", title).dialog({
         modal: true,
         width: 300,
         height: 220,
         resizable: false
-    }).dialog("option", "title", title);
+    });
 }
 
 initButton = function (id) {
