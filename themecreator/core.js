@@ -197,7 +197,7 @@ dialog = function (title, text, id, buttons) {
 initSlider = function (id, callback) {
     $("#" + id).slider({
         min: 1,
-        max: 100
+        max: 100,
         value: 1,
         slide: function (event, ui) {
             callback(ui.value / 100);
