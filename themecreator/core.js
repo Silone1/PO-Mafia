@@ -155,7 +155,7 @@ initAutoCompleter = function (id, tags, join) {
     return $("#Theme-" + id).autocomplete({
         minLength: 0,
         source: function (request, response) {
-            response($.ui.autocomplete.filter(tags, request.term.split(/,\s*/).pop()));
+            response($.ui.autocomplete.filter(tags, request.term.split(join).pop()));
         },
         focus: function () {
             return false;
