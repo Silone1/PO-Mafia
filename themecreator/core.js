@@ -345,6 +345,13 @@ initalizeGlobals = function () {
 
 /* Document onload */
 $(document).ready(function () {
+    /* Load from localStorage */
+    var item = localStorage.getItem("Theme");
+    
+    if (item) {
+        $("#ThemeContent").val(item);
+    }
+    
     /* Initalize Tabs */
     var Tabs = $("#Tabs");
 
@@ -406,3 +413,10 @@ $(document).ready(function () {
 });
 
 /* End Document onload */
+
+/* Window onunload */
+$(window).unload(function () {
+    if (Theme !== false) {
+        localStorage.setItem("Theme", JSON.stringify(Theme));
+    }
+})l
