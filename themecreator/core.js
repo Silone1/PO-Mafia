@@ -143,8 +143,9 @@ initSlider = function (id, callback) {
         value: 1,
         slide: function (event, ui) {
             callback(ui.value / 100);
+            $("#Theme-"+id+"-slider").html("("+ui.value / 100 +")");
         }
-    });
+    }).append("<span id='#Theme-'"+id+"'-slider'>(0.01)</span>");
 }
 
 initAutoCompleter = function (id, tags, join) {
