@@ -151,6 +151,48 @@
     });
 })();
 
+/* End Utilities */
+
+/* jQuery UI Stuff */
+dialog = function (title, text) {
+    var x, res = "<label><b>",
+        obj = $("#Dialog");
+
+    for (x in text) {
+        res += "<p>" + text[x] + "</p>";
+    }
+
+    res += "</b></label>";
+
+    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
+
+    obj.html(res).dialog({
+        modal: true,
+        width: 300,
+        height: 220,
+        resizable: false,
+        title: title
+    });
+
+    return obj;
+}
+
+initButton = function (id) {
+    $("#" + id).button();
+}
+
+initSlider = function (id, callback) {
+    $("#" + id).slider({
+        min: 1,
+        max: 100,
+        value: 1,
+        slide: function (event, ui) {
+            callback(ui.value / 100);
+        }
+    });
+} /* End jQuery UI Stuff */
+
+/* Core JS */
 Theme = false;
 
 loadTheme = function (text) {
@@ -168,48 +210,6 @@ loadTheme = function (text) {
 useTheme = function () {
     var val = $("#LoadTheme").val();
     loadTheme(val);
-}
-
-dialog = function (title, text) {
-    var x, res = "<label><b>", obj = $("#Dialog");
-    
-    for (x in text) {
-        res += "<p>" + text[x] + "</p>";
-    }
-
-    res += "</b></label>";
-
-    res = res.replace(/\{INFO\}/g, "<span class='ui-icon ui-icon-info' style='float:left; margin:0 7px 50px 0;'></span>").replace(/\{ALERT\}/g, "<span class='ui-icon ui-icon-alert' style='float:left; margin:0 7px 50px 0;'></span>");
-
-    obj.html(res).dialog({
-        modal: true,
-        width: 300,
-        height: 220,
-        resizable: false,
-        title: title
-        
-        /*,
-        buttons: [
-        {
-            "text": "Ok",
-            click: function () {
-                $(this).dialog("close");
-            }
-        }]*/
-    });
-    
-    return obj;
-}
-
-initSlider = function (id, callback) {
-    $("#" + id).slider({
-        min: 1,
-        max: 100,
-        value: 1,
-        slide: function (event, ui) {
-            callback(ui.value / 100);
-        }
-    });
 }
 
 getInput = function (id) {
@@ -237,22 +237,6 @@ set = function (obj, id, hook) {
     obj[input.property] = input.value;
 }
 
-Hooks = {};
-Hooks.Number = function (input) {
-    input.value = input.value * 1;
-    return input;
-}
-
-Hooks.Array = function (input) {
-    input.value = input.value.split(", ");
-
-    if (input.value.length < 2) {
-        input.value = input.value[0];
-    }
-
-    return input;
-}
-
 setThemeValues = function () {
     set(Theme, "Name");
     set(Theme, "Author", Hooks.Array);
@@ -264,9 +248,28 @@ setThemeValues = function () {
     set(Theme, "VillageCantLoseRoles", Hooks.Array);
 }
 
+/* Hooks for set */
+Hooks = {
+    Number: function (input) {
+        input.value = input.value * 1;
+        return input;
+    },
+    Array: function (input) {
+        input.value = input.value.split(", ");
+
+        if (input.value.length < 2) {
+            input.value = input.value[0];
+        }
+
+        return input;
+    }
+}; /* End Hooks for set */
+
+/* End Core JS */
+
+/* Document onload */
 $(document).ready(function () {
-    var CreateNew = $("#CreateNew"),
-        Tabs = $("#Tabs");
+    var Tabs = $("#Tabs");
 
     Tabs.tabs({
         "select": function (event, ui) {
@@ -297,12 +300,10 @@ $(document).ready(function () {
         collapsible: true
     });
 
-    CreateNew.button({
-        icons: {
-            primary: "ui-icon-plusthick"
-        }
-    });
-    CreateNew.click(function () {
+    initButton("CreateNew");
+    initButton("UseTheme");
+
+    $("#CreateNew").click(function () {
         Theme = {};
         dialog("Importing Panel", ["Your theme was successfully imported."]);
 
@@ -312,10 +313,6 @@ $(document).ready(function () {
 
         Tabs.tabs("select", 1); // Editing Panel
     });
-
-    $("#UseTheme").button({
-        icons: {
-            primary: "ui-icon-script"
-        }
-    });
 });
+
+/* End Document onload */
