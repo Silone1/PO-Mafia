@@ -202,8 +202,17 @@ useTheme = function () {
     loadTheme(val);
 }
 
-addGlobalOption = function (name, id, prop_name, tooltip) {
-    $("#Globals-List").append("<li><b>"+name+"</b>: <input id=\"Theme-"+id+"\" name=\""+prop_name+"\" title=\""+tooltip+"\">");
+addGlobalOption = function (name, id, propName, tooltip) {
+    if (arguments.length === 2) {
+        tooltip = id;
+        id = name;
+        propName = id.toLowerCase();
+    } else if (arguments.length === 3) {
+        tooltip = propName;
+        propName = id.toLowerCase();
+    }
+    
+    $("#Globals-List").append("<li><b>"+name+"</b>: <input id=\"Theme-"+id+"\" name=\""+propName+"\" title=\""+tooltip+"\">");
 }
 
 setGlobalOption = function (id, text, hook) {
@@ -224,6 +233,15 @@ getInput = function (id) {
 }
 
 set = function (obj, id, hook) {
+    if (arguments.length === 1) {
+        id = obj;
+        obj = Theme;
+    } else if (arguments.length === 2 && typeof id === "function") {
+        hook = id;
+        id = obj;
+        obj = Theme;
+    }
+    
     var input = getInput(id);
 
     if (!input.value) {
@@ -270,14 +288,17 @@ Hooks = {
 
 /* Tab: Global */
 setThemeValues = function () {
-    set(Theme, "Name");
-    set(Theme, "Author", Hooks.Array);
-    set(Theme, "Summary");
-    set(Theme, "Border");
-    set(Theme, "KillMsg");
-    set(Theme, "KillUserMsg");
+    set("Name");
+    set("Author", Hooks.Array);
+    set("Summary");
+    set("Border");
+    
+    set("KillMsg");
+    set("KillUserMsg");
+    set("LynchMsg");
+    set("DrawMsg");
 
-    set(Theme, "VillageCantLoseRoles", Hooks.StringToArray);
+    set("VillageCantLoseRoles", Hooks.StringToArray);
 }
 
 getThemeValues = function () {
@@ -285,13 +306,26 @@ getThemeValues = function () {
     setGlobalOption("Author", Theme.author, Hooks.ArrayToString);
     setGlobalOption("Summary", Theme.summary);
     setGlobalOption("Border", Theme.border);
+    
     setGlobalOption("KillMsg", Theme.killmsg);
     setGlobalOption("KillUserMsg", Theme.killusermsg);
+    setGlobalOption("LynchMsg", Theme.lynchmsg);
+    setGlobalOption("DrawMsg", Theme.drawmsg);
+    
     setGlobalOption("VillageCantLoseRoles", Theme.villageCantLoseRoles, Hooks.ArrayToString);
 }
 
 initalizeGlobals = function () {
-    addGlobalOption("Name", "Name", "name", "Your theme's name");
+    addGlobalOption("Name", "Your theme's name");
+    addGlobalOption("Author", "Your theme's author(s)");
+    addGlobalOption("Border", "Your theme's border");
+    
+    addGlobalOption("Kill Message", "KillMsg", "Your theme's kill message");
+    addGlobalOption("Kill User Message", "KillUserMsg", "Your theme's kill message sent to the player who died");
+    addGlobalOption("Lynch Message", "LynchMsg", "Your theme's lynch message");
+    addGlobalOption("Draw Message", "DrawMsg", "Your theme's draw message");
+    
+    addGlobalOption("Village Can't Lose Roles", "VillageCantLoseRoles", "villageCantLoseRoles", "Your theme's villageCantLoseRoles list");
 }
 
 /* Document onload */
