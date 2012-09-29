@@ -107,3 +107,8 @@ defineCoreProperty(Array.prototype, "isEmpty", function () {
 defineCoreProperty(Array.prototype, "contains", function (prop) {
     return this.has(prop);
 });
+
+isEmptyObject = function (obj) {
+    return typeof obj !== "object" || obj.length() === 0;
+};
+

@@ -130,16 +130,12 @@ dialog = function (title, text, dialogIcon) {
 
     res += "</b>";
 
-    return obj.html(res).attr("title", title).dialog({
+    return obj.attr("title", title).html(res).dialog({
         modal: true,
         width: 300,
         height: 225,
         resizable: false
     });
-};
-
-importTheme = function () {
-    loadTheme($("#ThemeContent").val());
 };
 
 getInput = function (id) {
