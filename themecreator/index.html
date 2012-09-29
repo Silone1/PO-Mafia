@@ -1,73 +1,96 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="chrome=1">
-        <title>
-            Mafia Theme Creator
-        </title>
-        <script src="http://code.jquery.com/jquery-1.8.2.min.js">
-        </script>
-        <link type="text/css" href="ui-lightness/jquery-ui-1.8.23.custom.css" rel="Stylesheet"/>
-        <link type="text/css" href="style.css" rel="Stylesheet"/>
-        <script type="text/javascript" src="jquery-ui-1.8.23.min.js">
-        </script>
-        <script src="core.js">
-        </script>
-    </head>
-    
-    <body>
-        <div class="page">
-            <div id="Status" align="right"></div>
-            <div id="Dialog"></div>
-            <div id="Tabs">
-                <h1 id="Header" style="text-align: center">Mafia Theme Creator</h1>
-                <ul>
-                    <li>
-                        <a href="#Tabs-1">Importing</a>
-                    </li>
-                    <li>
-                        <a href="#Tabs-2">Editing</a>
-                    </li>
-                    <li>
-                        <a href="#Tabs-3">Source</a>
-                    </li>
-                </ul>
-                <div id="Tabs-1">
-                    <br/>
-                    <textarea rows="15" cols="75" id="ThemeContent">{}</textarea>
-                    <br/>
-                    <button id="CreateNew">Create New</button> | <button id="ImportTheme">Import</button>
-                    <br/><br/>
-                    <font size='1'>Best viewed in Google Chrome, Firefox 3.5+, Internet Explorer 8+, Opera 10.5+, or Safari 4+</font>
+<head>
+    <meta charset="utf-8">
+    <title>Mafia Theme Creator</title>
+    <!-- Stylesheets -->
+
+    <!-- Modified version of Twitter Bootstrap -->
+    <link rel="Stylesheet" href="bootstrap/css/bootstrap.css">
+
+    <!-- jQuery UI 1.8.23 UI Lightness theme -->
+    <link rel="Stylesheet" href="ui-lightness/jquery-ui-1.8.23.custom.css">
+
+    <!-- Custom css -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Scripts -->
+
+    <!-- jQuery 1.8.1 -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+
+    <!-- jQuery UI 1.8.23 -->
+    <script src="jquery-ui-1.8.23.min.js"></script>
+
+    <!-- Theme Creator -->
+
+    <!-- Utilities -->
+    <script type="text/javascript" src="utilities.js"></script>
+
+    <!-- jQuery UI Utilities -->
+    <script type="text/javascript" src="jquery-ui-utilities.js"></script>
+
+    <!-- The main code -->
+    <script type="text/javascript" src="app.js"></script>
+</head>
+
+<body>
+<div class="page">
+    <div id="Dialog"></div>
+    <div id="Tabs">
+        <h1 id="Header" style="text-align: center">Mafia Theme Creator</h1>
+        <ul>
+            <li>
+                <a href="#Tabs-1">Importing</a>
+            </li>
+            <li>
+                <a href="#Tabs-2">Editing</a>
+            </li>
+            <li>
+                <a href="#Tabs-3">Source</a>
+            </li>
+        </ul>
+        <div id="Tabs-1">
+            <br/>
+            <textarea rows="15" cols="75" id="ThemeContent" placeholder="{}"></textarea>
+            <br/>
+            <button id="CreateNew">Create New</button>
+            <button id="ImportTheme">Import</button>
+            <br/><br/>
+            <font size='1'>Best viewed in Google Chrome, Firefox 3.5+, Internet Explorer 8+, Opera 10.5+, or Safari
+                4+</font>
+        </div>
+        <div id="Tabs-2">
+            <div id="Theme" style="font-size: 80%">
+                <h2>
+                    <a href="#Globals">Globals</a>
+                </h2>
+
+                <div id="Globals">
+                    <ul id="Globals-List">
+                        <!-- Text areas are added in core.js-->
+                    </ul>
                 </div>
-                <div id="Tabs-2">
-                    <div id="Theme" style="font-size: 80%">
-                        <h2>
-                            <a href="#Globals">Globals</a>
-                        </h2>
-                        <div id="Globals">
-                            <ul id="Globals-List">
-                                <!-- Text areas are added in core.js -->
-                            </ul>
-                        </div>
-                        <h2>
-                            <a href="#Sides">Sides</a>
-                        </h2>
-                        <div id="Sides">
-                        </div>
-                        <h2>
-                            <a href="#">Roles</a>
-                        </h2>
-                        <div id="#Roles">
-                        </div>
-                    </div>
+                <h2>
+                    <a href="#Sides">Sides</a>
+                </h2>
+
+                <div id="Sides">
                 </div>
-                <div id="Tabs-3">
-                    <textarea rows="15" cols="100" id="Source"></textarea>
-                    <h4>Remember to format your theme <a href="http://jsonlint.com">here</a></h4>
+                <h2>
+                    <a href="#">Roles</a>
+                </h2>
+
+                <div id="#Roles">
                 </div>
             </div>
         </div>
-    </body>
+        <div id="Tabs-3">
+            <textarea rows="15" cols="100" id="Source"></textarea>
+            <h4>Remember to format your theme <a href="http://jsonlint.com">here</a></h4>
+            <br/><br/>
+        </div>
+    </div>
+</div>
+</body>
 </html>

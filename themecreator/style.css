@@ -1,11 +1,21 @@
-.css-slider {
-    float: left;
-    clear: left;
-    width: 300px;
-    margin: 15px;
+.slider {
+    width: 100px;
+}
+
+.slider-value {
+    border: 0;
+    color: #f6931f;
+    font-weight: bold;
+    width: 16px;
 }
 
 .button-span {
     font-weight: bold;
     color: cornflowerblue;
+}
+
+.app-label {
+    font-weight: bold;
+    color: #696969;
+    border: 1px;
 }
