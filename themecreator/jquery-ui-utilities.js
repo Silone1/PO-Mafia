@@ -93,7 +93,7 @@ initAutoCompleter = function (id, tags, join) {
         join = " ";
     }
 
-    return $(id).autocomplete({
+    return $("#" + id).autocomplete({
         minLength: 0,
         source: function (request, response) {
             response($.ui.autocomplete.filter(tags, request.term.split(join).pop()));
