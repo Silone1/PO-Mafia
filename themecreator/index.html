@@ -1,37 +1,45 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Mafia Theme Creator</title>
-    <!-- Stylesheets -->
+    <!-- !Stylesheets! -->
 
-    <!-- Modified version of Twitter Bootstrap -->
+    <!-- * Modified version of Twitter Bootstrap * -->
     <link rel="Stylesheet" href="bootstrap/css/bootstrap.css">
 
-    <!-- jQuery UI 1.8.23 UI Lightness theme -->
+    <!-- * jQuery UI 1.8.23 UI Lightness theme * -->
     <link rel="Stylesheet" href="ui-lightness/jquery-ui-1.8.23.custom.css">
 
-    <!-- Custom css -->
+    <!-- * Custom CSS * -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Scripts -->
+    <!-- !Scripts! -->
 
-    <!-- jQuery 1.8.1 -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <!-- * jQuery 1.8.1 * -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
 
-    <!-- jQuery UI 1.8.23 -->
-    <script src="jquery-ui-1.8.23.min.js"></script>
+    <!-- * jQuery UI 1.8.23 * -->
+    <script type="text/javascript" src="jquery-ui-1.8.23.min.js"></script>
 
-    <!-- Theme Creator -->
+    <!-- ** Theme Creator ** -->
 
-    <!-- Utilities -->
+    <!-- *** Utilities *** -->
     <script type="text/javascript" src="utilities.js"></script>
 
-    <!-- jQuery UI Utilities -->
+    <!-- *** jQuery UI Utilities *** -->
     <script type="text/javascript" src="jquery-ui-utilities.js"></script>
 
-    <!-- The main code -->
+    <!-- *** General code *** -->
     <script type="text/javascript" src="app.js"></script>
+
+    <!-- **** Modules **** -->
+
+    <!-- ***** Globals ***** -->
+    <script type="text/javascript" src="module-globals.js"></script>
+
+    <!-- ***** Sides ***** -->
+    <script type="text/javascript" src="module-sides.js"></script>
 </head>
 
 <body>
@@ -54,10 +62,10 @@
             <br/>
             <textarea rows="15" cols="75" id="ThemeContent" placeholder="{}"></textarea>
             <br/>
-            <button id="CreateNew">Create New</button>
             <button id="ImportTheme">Import</button>
+            <button id="CreateNew">Create New</button>
             <br/><br/>
-            <span style="font-size: 11px; font-style: italic;">Update your browser if the site doesn't work. Clear your cache if you don't see the latest changes.</span>
+            <span class="notice">Update your browser if the site doesn't work. Clear your cache if you don't see the latest changes.</span>
         </div>
         <div id="Tabs-2">
             <div id="Theme" style="font-size: 80%">
@@ -67,7 +75,7 @@
 
                 <div id="Globals">
                     <ul id="Globals-List">
-                        <!-- Text areas are added in core.js-->
+                        <!-- Output generated in app.js -->
                     </ul>
                 </div>
                 <h2>
@@ -75,6 +83,17 @@
                 </h2>
 
                 <div id="Sides">
+                    <button id="NewSide">New Side</button>
+                    <button id="RemoveSide" class="invisible">Remove Side</button>
+                    <br/><br/>
+                    <select id="Sides-Select">
+                        <option value="null" selected="selected" id="Sides-Select-OptionDefault">Select a side to edit
+                        </option>
+                    </select>
+                    <br/>
+
+                    <div id="Sides-List">
+                    </div>
                 </div>
                 <h2>
                     <a href="#">Roles</a>
@@ -86,7 +105,7 @@
         </div>
         <div id="Tabs-3">
             <textarea rows="15" cols="100" id="Source"></textarea>
-            <h4>Remember to format your theme <a href="http://jsonlint.com">here</a></h4>
+            <h4>Remember to format your theme <a href="http://jsonlint.com" style="color: darkblue;">here</a>.</h4>
             <br/><br/>
         </div>
     </div>

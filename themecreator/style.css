@@ -19,3 +19,12 @@
     color: #696969;
     border: 1px;
 }
+
+.notice {
+    font-size: 11px;
+    font-style: italic;
+}
+
+button {
+    margin-bottom: 9px;
+}

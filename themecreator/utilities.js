@@ -1,4 +1,3 @@
-
 defineCoreProperty = function (core, prop, func) {
     Object.defineProperty(core, prop, {
         "value": func,

@@ -9,6 +9,27 @@ initButton = function (id, callback) {
     return element;
 };
 
+addCheckbox = function (main_id, name, id, tooltip, callback) {
+    var button_id;
+
+    $("#" + main_id).append("<li><span title=\"" + tooltip + "\" class='button-span'>" + name + ":</span> <br/> <button title=\"" + tooltip + "\" id='" + id + "' class='btn btn-mini'>Disabled</button></li>");
+    button_id = $("#" + id);
+
+    if ($.isFunction(callback)) {
+        button_id.click(callback);
+    }
+
+    button_id.click(function () {
+        var self = $(this) , self_text = self.text();
+
+        if (self_text === "Enabled") {
+            self.text("Disabled");
+        } else {
+            self.text("Enabled");
+        }
+    });
+};
+
 addSlider = function (id, name, slider_id, tooltip, options, callback) {
     if (!options.min) {
         options.min = 1;
@@ -20,7 +41,7 @@ addSlider = function (id, name, slider_id, tooltip, options, callback) {
         options.value = options.min;
     }
 
-    $("#" + id).append("<li><span class='button-span' title=\""+tooltip+"\">" + name + ":</span> <input type='text' id='Theme-" + slider_id + "-value' class='slider-value' title=\""+tooltip+"\" value='" + options.value + "' disabled><div id='Theme-" + slider_id + "' class='slider'></div> <br/> </li>");
+    $("#" + id).append("<li><span class='button-span' title=\"" + tooltip + "\">" + name + ":</span> <input type='text' id='Theme-" + slider_id + "-value' class='slider-value' title=\"" + tooltip + "\" value='" + options.value + "' disabled><div id='Theme-" + slider_id + "' class='slider'></div> <br/> </li>");
     initSlider(slider_id, options, callback);
 };
 
@@ -40,7 +61,8 @@ initSlider = function (id, options, callback) {
 };
 
 addChanceSlider = function (id, slider_id, tooltip, callback) {
-    $("#" + id).append("<li><span class='button-span' title=\""+tooltip+"\">" + name + ":</span> <input type='text' id='Theme-" + slider_id + "-value' class='slider-value' title=\""+tooltip+"\" value='" + options.value + "' disabled><div id='Theme-" + slider_id + "' class='slider'></div> <br/> </li>");
+    $("#" + id).append("<li><span class='button-span' title=\"" + tooltip + "\">" + name + ":</span> <input type='text' id='Theme-" + slider_id + "-value' class='slider-value' title=\"" + tooltip + "\" value='" + options.value + "' disabled><div id='Theme-" + slider_id + "' class='slider'></div> <br/> </li>");
+
     initChanceSlider(slider_id, callback);
 };
 
@@ -71,7 +93,7 @@ initAutoCompleter = function (id, tags, join) {
         join = " ";
     }
 
-    return $("#Theme-" + id).autocomplete({
+    return $(id).autocomplete({
         minLength: 0,
         source: function (request, response) {
             response($.ui.autocomplete.filter(tags, request.term.split(join).pop()));
@@ -90,18 +112,6 @@ initAutoCompleter = function (id, tags, join) {
             return false;
         }
     });
-};
-
-labelHtml = function (text, icon) {
-    if (!icon) {
-        icon = "minus";
-    }
-
-    return '<p class="app-label">' + window.icon(icon) + '</span> ' + text + '</p>';
-};
-
-label = function (id, text, icon) {
-    $("#" + id).append(labelHtml(text, icon));
 };
 
 icon = function (icon) {
@@ -172,8 +182,14 @@ set = function (obj, id, hook) {
             }
         }
 
-        eval("obj." + input.property + " = " + input.value);
+        eval("obj." + input.property + " = " + Hooks.InputToEval(input).value);
     }
+}
+;
+
+setFromCheckbox = function (id, obj, name) {
+    var isEnabled = $("#Theme-" + id).text() === "Enabled";
+    eval("obj." + name + " = " + isEnabled);
 };
 
 setSliderValue = function (id, obj, property) {
@@ -181,7 +197,7 @@ setSliderValue = function (id, obj, property) {
         obj = Theme;
     }
 
-    var value = $("#Theme-"+id+"-value").val();
+    var value = $("#Theme-" + id + "-value").val();
 
     if (!value) {
         eval("if (obj." + property + ") { delete obj." + property + "; }");
@@ -229,5 +245,29 @@ Hooks = {
         } else {
             return input;
         }
+    },
+    InputToEval: function (input) {
+        if ($.isArray(input.value)) {
+            input.value = "[" + Hooks.ArrayToEval(input.value) + "]";
+        }
+        else {
+            input.value = '"' + input.value + '"';
+        }
+
+        return input;
+    },
+    ArrayToEval: function (value) {
+        var map = function (val) {
+            var type = typeof val;
+            if (type === "array") {
+                return val.join(", ");
+            } else if (type === "object") {
+                return JSON.stringify(val);
+            }
+
+            return '"' + val + '"';
+        }
+
+        return value.map(map).join(", ");
     }
 };
