@@ -61,7 +61,7 @@ defineCoreProperty(Object.prototype, "keys", function () {
 });
 
 defineCoreProperty(Object.prototype, "has", function (prop) {
-    return typeof this[prop] !== "undefined";
+    return this.hasOwnProperty(prop);
 });
 
 defineCoreProperty(Object.prototype, "contains", function (prop) {

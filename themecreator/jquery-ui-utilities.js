@@ -88,7 +88,7 @@ setSliderData = function (id, val) {
     }
 };
 
-initAutoCompleter = function (id, tags, join) {
+initAutoCompleter = function (id, tags, join, onSelect) {
     if (!join) {
         join = " ";
     }
@@ -108,6 +108,10 @@ initAutoCompleter = function (id, tags, join) {
             terms.push(ui.item.value);
 
             this.value = terms.join(join);
+
+            if ($.isFunction(onSelect)) {
+                onSelect(this.value);
+            }
 
             return false;
         }

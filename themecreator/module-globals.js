@@ -22,7 +22,6 @@ Modules["Global"] = {
     addCheckbox: function (name, id, tooltip, callback) {
         addCheckbox("Globals-List", name, "Theme-" + id, tooltip, callback);
     },
-
     setCheckbox: function (id, enabled) {
         var checked = "Enabled";
 

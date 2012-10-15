@@ -23,11 +23,10 @@ Modules["Sides"] = {
     },
     switchToSide: function (name) {
         $("#RemoveSide").removeClass("invisible");
+        CurrentSide = name;
 
         $("#Sides-List").html(this.sideHtml());
         this.manipulateHtml();
-
-        CurrentSide = name;
     },
     addSide: function () {
         var $options = $("#Sides-Select");
@@ -36,7 +35,7 @@ Modules["Sides"] = {
             $options.append("<option value='Unnamed' id='Sides-Select-Unnamed'>Unnamed</option>");
         }
 
-        Sides.Unnamed = {"side": "Unnamed"};
+        Sides.Unnamed = {"side": "Unnamed", "translation": "Unnamed"};
     },
     createNewSide: function () {
         this.addSide();
@@ -61,18 +60,34 @@ Modules["Sides"] = {
         }
     },
     sideHtml: function () {
+        var side = Sides[CurrentSide];
+        if (!side) {
+            side = {};
+        }
+        if (!side.side) {
+            side.side = "Unnamed";
+        }
+        if (!side.translation) {
+            side.translation = "Unnamed";
+        }
+        if (!side.winmsg) {
+            side.winmsg = "±Game: ";
+        }
+
         var ret = "<ul>";
 
-        ret += "<li><span class='button-span' title=\"Your side's proto side. village is special for villageCantLoseRoles\">Proto Side:</span> <br/> <input type='text' id=\"Side-ProtoSide\" title=\"Your side's proto side. village is special for villageCantLoseRoles\" size='20'> </li>";
-        ret += "<li><span class='button-span' title=\"Your side's translation sent in-game\">Translation:</span> <br/> <input type='text' id=\"Side-Translation\" title=\"Your side's translation sent in-game\" size='20'> </li>";
-        ret += "<li><span class='button-span' title=\"Your side's win message\">Win Message:</span> <br/> <input type='text' id=\"Side-WinMsg\" title=\"Your side's win message\" size='20'> </li>";
+        ret += "<li><span class='button-span' title=\"Your side's proto side. village is special for villageCantLoseRoles\">Proto Side:</span> <br/> <input type='text' id=\"Side-ProtoSide\" title=\"Your side's proto side. village is special for villageCantLoseRoles\" size='20' value='" + side.side + "'> </li>";
 
-        return ret + "</ul>";
+        ret += "<li><span class='button-span' title=\"Your side's translation sent in-game\">Translation:</span> <br/> <input type='text' id=\"Side-Translation\" title=\"Your side's translation sent in-game\" size='20' value='" + side.translation + "'> </li>";
 
+        ret += "<li><span class='button-span' title=\"Your side's win message\">Win Message:</span> <br/> <input type='text' id=\"Side-WinMsg\" title=\"Your side's win message\" size='20' value='" + side.winmsg + "'> </li>";
+
+        ret += "</ul>";
+
+        return ret;
     },
     manipulateHtml: function () {
-        // Different approch here for the better
-        var $side = $("#Sides-List");
+        // Different approach here for the better
         $("#Side-ProtoSide").change(function (event) {
             Sides[CurrentSide].side = event.currentTarget.value;
         });
@@ -87,34 +102,41 @@ Modules["Sides"] = {
 
             oldProp.attr("value", CurrentSide).attr("id", "Sides-Select-" + CurrentSide).text(CurrentSide);
 
-            oldSide.translation = val;
             Sides[CurrentSide] = oldSide;
+            Sides[CurrentSide].translation = val;
         });
 
         $("#Side-WinMsg").change(function (event) {
             Sides[CurrentSide].winmsg = event.currentTarget.value;
         });
 
-        initAutoCompleter("Side-WinMsg", ["±Game:", "~Players~", "***"]);
+        initAutoCompleter("Side-WinMsg", ["±Game:", "~Players~", "***"], null, function (value) {
+            Sides[CurrentSide].winmsg = value;
+        })
     },
     setValues: function () {
-        var result = [], x, curr, obj;
+        var result = [], x, curr, obj, hadSides = false;
         for (x in Sides) {
             curr = Sides[x];
-            obj = {"side": curr.side, "translation": x};
+            obj = {"side": curr.side, "translation": curr.translation};
 
             if (curr.has("winmsg")) {
                 obj.winmsg = curr.winmsg;
             }
 
             result.push(obj);
+            hadSides = true;
+        }
+
+        if (!hadSides) {
+            return;
         }
 
         Theme.sides = result;
     },
     loadValues: function () {
-        var x, sides, curr;
-        if (!Theme.has("sides")) {
+        var x, sides, curr, $options = $("#Sides-Select");
+        if (!Theme.sides) {
             return;
         }
 
@@ -122,11 +144,28 @@ Modules["Sides"] = {
 
         for (x in sides) {
             curr = sides[x];
-            Sides[curr.translation] = {"side": curr.side};
+            if (Sides[curr.translation]) {
+                continue;
+            }
+
+            Sides[curr.translation] = {"side": curr.side, "translation": curr.translation};
 
             if (curr.winmsg) {
                 Sides[curr.translation].winmsg = curr.winmsg;
             }
+
+            $options.append("<option value='" + curr.translation + "' id='Sides-Select-"+ curr.translation +"'>" + curr.translation + "</option>");
         }
+    },
+    onImport: function () {
+        Sides = {}; // Fix for some weird behavior
+
+        $("#Sides-Select").html('<option value="null" selected="selected" id="Sides-Select-OptionDefault">Select a side to edit</option>'); // Should fix a few bugs
+        $("#Sides-List").html("");
+        $("#Sides-Select-" + CurrentSide).remove();
+        $("#Sides-Select-OptionDefault").attr("selected", "selected");
+        $("#RemoveSide").addClass("invisible");
+
+        CurrentSide = -1;
     }
 };

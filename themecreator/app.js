@@ -2,7 +2,7 @@
 Modules = {};
 
 loadTheme = function (text) {
-    var res;
+    var res, x;
     try {
         res = JSON.parse(text);
     } catch (e) {
@@ -20,7 +20,14 @@ loadTheme = function (text) {
         $("#Dialog").dialog("close");
     }, 1500);
 
+    for (x in Modules) {
+        if (Modules[x].onImport) {
+            Modules[x].onImport();
+        }
+    }
+
     $("#Tabs").tabs("select", 1); // Editing
+
 };
 
 importTheme = function () {
