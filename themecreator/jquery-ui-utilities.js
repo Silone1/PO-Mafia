@@ -270,8 +270,23 @@ Hooks = {
             }
 
             return '"' + val + '"';
-        }
+        };
 
         return value.map(map).join(", ");
     }
+};
+
+/* Bootstrap, but ok */
+
+CreateTabs = function (id, prefix, args) {
+    var x, html = '<div id="' + id + '" class="tabbable tabs-left">', tabs = '<ul class="nav nav-tabs" id="' + id + '-NavTabs">', content = '<div class="tab-content">';
+    for (x in args) {
+        tabs += '<li><a href="#' + prefix + x + '" data-toggle="tab">' + x + '</a></li>';
+        content += '<div class="tab-pane" id="' + prefix + x+ '"><p>' + args[x] + '</p></div>';
+    }
+
+    tabs += "</ul>";
+    content += "</div>";
+
+    return html + tabs + content + '</div>';
 };

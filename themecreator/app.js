@@ -72,13 +72,23 @@ $(function () {
 
     Tabs.tabs({
         select: function (event, ui) {
+            var $content = $("#ThemeContent");
+
             if (ui.index === 0) { // Importing
                 if (!isEmptyObject(Theme)) {
                     updateThemeValues();
-                    $("#ThemeContent").val(JSON.stringify(Theme));
+                    $content.val(JSON.stringify(Theme));
                 }
             }
             if (ui.index === 1) { // Editing
+                if (isEmptyObject(Theme)) {
+                    try {
+                        Theme = JSON.parse($content.val());
+                    }
+                    catch (JSONParseError) {
+                        Theme = {};
+                    }
+                }
                 if (!isEmptyObject(Theme)) {
                     loadThemeValues();
                 }
@@ -91,7 +101,7 @@ $(function () {
                     return false;
                 }
 
-                $("#Source").val(JSON.stringify(Theme));
+                $("#ThemeResult").val(JSON.stringify(Theme));
 
             }
         }

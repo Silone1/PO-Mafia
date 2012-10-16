@@ -40,6 +40,9 @@
 
     <!-- ***** Sides ***** -->
     <script type="text/javascript" src="module-sides.js"></script>
+
+    <!-- ***** Role Lists ***** -->
+    <script type="text/javascript" src="module-rolelists.js"></script>
 </head>
 
 <body>
@@ -49,16 +52,16 @@
         <h1 id="Header" style="text-align: center">Mafia Theme Creator</h1>
         <ul>
             <li>
-                <a href="#Tabs-1">Importing</a>
+                <a href="#Import">Importing</a>
             </li>
             <li>
-                <a href="#Tabs-2">Editing</a>
+                <a href="#Edit">Editing</a>
             </li>
             <li>
-                <a href="#Tabs-3">Source</a>
+                <a href="#Source">Source</a>
             </li>
         </ul>
-        <div id="Tabs-1">
+        <div id="Import">
             <br/>
             <textarea rows="15" cols="75" id="ThemeContent" placeholder="{}"></textarea>
             <br/>
@@ -67,7 +70,7 @@
             <br/><br/>
             <span class="notice">Update your browser if the site doesn't work. Clear your cache if you don't see the latest changes.</span>
         </div>
-        <div id="Tabs-2">
+        <div id="Edit">
             <div id="Theme" style="font-size: 80%">
                 <h2>
                     <a href="#Globals">Globals</a>
@@ -75,7 +78,6 @@
 
                 <div id="Globals">
                     <ul id="Globals-List">
-                        <!-- Output generated in app.js -->
                     </ul>
                 </div>
                 <h2>
@@ -109,8 +111,8 @@
                 </div>
             </div>
         </div>
-        <div id="Tabs-3">
-            <textarea rows="15" cols="100" id="Source"></textarea>
+        <div id="Source">
+            <textarea rows="15" cols="100" id="ThemeResult"></textarea>
             <h4>Remember to format your theme <a href="http://jsonlint.com" style="color: darkblue;">here</a>.</h4>
             <br/><br/>
         </div>
