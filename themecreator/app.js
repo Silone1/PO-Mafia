@@ -104,6 +104,8 @@ $(function () {
                 $("#ThemeResult").val(JSON.stringify(Theme));
 
             }
+            
+            $("[title]").tipsy({gravity: $.fn.tipsy.autoNS});
         }
     });
 
@@ -145,6 +147,12 @@ $(function () {
 /* End Document onload */
 
 /* Window onunload */
+$(window).bind('beforeunload', function () {
+    if (!isEmptyObject(Theme)) {
+        return "Are you sure that you want to quit? Your progress will be saved.";
+    }
+});
+
 $(window).unload(function () {
     if (!isEmptyObject(Theme) && window.localStorage) {
         localStorage.setItem("Theme", JSON.stringify(Theme));

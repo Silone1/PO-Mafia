@@ -3,45 +3,18 @@
 <head>
     <meta charset="utf-8">
     <title>Mafia Theme Creator</title>
-    <!-- !Stylesheets! -->
-
-    <!-- * Modified version of Twitter Bootstrap * -->
     <link rel="Stylesheet" href="bootstrap/css/bootstrap.css">
-
-    <!-- * jQuery UI 1.8.23 UI Lightness theme * -->
     <link rel="Stylesheet" href="ui-lightness/jquery-ui-1.8.23.custom.css">
-
-    <!-- * Custom CSS * -->
+    <link rel="stylesheet" href="tipsy.css">
     <link rel="stylesheet" href="style.css">
-
-    <!-- !Scripts! -->
-
-    <!-- * jQuery 1.8.1 * -->
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-
-    <!-- * jQuery UI 1.8.23 * -->
     <script type="text/javascript" src="jquery-ui-1.8.23.min.js"></script>
-
-    <!-- ** Theme Creator ** -->
-
-    <!-- *** Utilities *** -->
+    <script type="text/javascript" src="jquery.tipsy.js"></script>
     <script type="text/javascript" src="utilities.js"></script>
-
-    <!-- *** jQuery UI Utilities *** -->
     <script type="text/javascript" src="jquery-ui-utilities.js"></script>
-
-    <!-- *** General code *** -->
     <script type="text/javascript" src="app.js"></script>
-
-    <!-- **** Modules **** -->
-
-    <!-- ***** Globals ***** -->
     <script type="text/javascript" src="module-globals.js"></script>
-
-    <!-- ***** Sides ***** -->
     <script type="text/javascript" src="module-sides.js"></script>
-
-    <!-- ***** Role Lists ***** -->
     <script type="text/javascript" src="module-rolelists.js"></script>
 </head>
 
@@ -104,10 +77,22 @@
                 <div id="Roles">
                 </div>
                 <h2>
-                    <a href="#">Role Lists</a>
+                    <a href="#Role-Lists">Role Lists</a>
                 </h2>
 
                 <div id="Role-Lists">
+                    <button id="NewRoleList">New Role List</button>
+                    <button id="RemoveRoleList" class="invisible">Remove Role List</button>
+                    <br/><br/>
+                    <select id="RoleList-Select">
+                        <option value="null" selected="selected" id="RoleList-Select-OptionDefault">Select a role list
+                            to edit
+                        </option>
+                    </select>
+                    <br/>
+
+                    <div id="RoleList-List">
+                    </div>
                 </div>
             </div>
         </div>
